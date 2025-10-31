@@ -1,4 +1,4 @@
-package org.cobalt.ui.util.helper
+package org.cobalt.util.helper
 
 /**
  * Implementation from OdinFabric by odtheking

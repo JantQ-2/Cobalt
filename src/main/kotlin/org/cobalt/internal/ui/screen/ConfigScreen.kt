@@ -1,4 +1,4 @@
-package org.cobalt.ui.screen
+package org.cobalt.internal.ui.screen
 
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen

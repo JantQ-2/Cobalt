@@ -1,4 +1,4 @@
-package org.cobalt.ui.util
+package org.cobalt.internal.ui.util
 
 import org.cobalt.CoreMod.mc
 

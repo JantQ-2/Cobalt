@@ -1,15 +1,17 @@
-package org.cobalt.ui.util.render
+package org.cobalt.util.ui
 
 import com.mojang.blaze3d.opengl.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
 import org.cobalt.CoreMod.mc
-import org.cobalt.ui.util.helper.*
 import net.minecraft.client.gl.GlBackend
 import net.minecraft.client.texture.GlTexture
 import java.nio.ByteBuffer
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.round
+import org.cobalt.util.helper.Font
+import org.cobalt.util.helper.Gradient
+import org.cobalt.util.helper.Image
 import org.lwjgl.nanovg.NVGColor
 import org.lwjgl.nanovg.NVGPaint
 import org.lwjgl.nanovg.NanoSVG.*

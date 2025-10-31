@@ -2,6 +2,9 @@ package org.cobalt
 
 import net.fabricmc.api.ClientModInitializer
 import net.minecraft.client.MinecraftClient
+import org.cobalt.api.command.CommandManager
+import org.cobalt.api.event.EventBus
+import org.cobalt.internal.command.MainCommand
 import org.cobalt.util.helper.TickScheduler
 
 object CoreMod : ClientModInitializer{
@@ -11,7 +14,12 @@ object CoreMod : ClientModInitializer{
 
   @Suppress("UNUSED_EXPRESSION")
   override fun onInitializeClient() {
-    TickScheduler
+    CommandManager.register(MainCommand)
+    CommandManager.dispatchAll()
+
+    listOf(
+      TickScheduler
+    ).forEach { EventBus.register(it) }
 
     println("Cobalt Mod Initialized")
   }

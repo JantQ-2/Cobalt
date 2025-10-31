@@ -1,4 +1,4 @@
-package org.cobalt.ui.component
+package org.cobalt.internal.ui.component
 
 abstract class Component {
 

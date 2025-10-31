@@ -1,4 +1,4 @@
-package org.cobalt.ui.util.helper
+package org.cobalt.util.helper
 
 import org.cobalt.util.setupConnection
 import org.lwjgl.system.MemoryUtil
