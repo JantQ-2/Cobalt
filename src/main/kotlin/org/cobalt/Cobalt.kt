@@ -15,9 +15,7 @@ object Cobalt : ClientModInitializer{
 
   @Suppress("UNUSED_EXPRESSION")
   override fun onInitializeClient() {
-    ModuleManager.getModules().forEach {
-      it.value.onInitialize()
-    }
+    ModuleManager.loadModules()
 
     CommandManager.register(MainCommand)
     CommandManager.dispatchAll()

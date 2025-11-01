@@ -43,7 +43,8 @@ dependencies {
     include("org.lwjgl:lwjgl-nanovg:${lwjglVersion}:natives-$it")
   }
 
-  implementation("com.github.caoimhebyrne:KDiscordIPC:0.2.3")
+  modImplementation("com.github.caoimhebyrne:KDiscordIPC:0.2.3")
+  include("com.github.caoimhebyrne:KDiscordIPC:0.2.3")
 }
 
 tasks {

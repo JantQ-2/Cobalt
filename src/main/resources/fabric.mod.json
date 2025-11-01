@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "cobalt",
   "version": "${version}",
   "name": "Cobalt",
   "description": "Core mod that loads and manages external modules through a shared API",
@@ -17,9 +17,6 @@
   "icon": "assets/cobalt/icon.png",
   "environment": "*",
   "entrypoints": {
-    "preLaunch": [
-      "org.cobalt.internal.launch.PreLaunch"
-    ],
     "client": [
       {
         "adapter": "kotlin",
