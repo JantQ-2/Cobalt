@@ -8,7 +8,7 @@ import net.minecraft.client.util.Handle;
 import net.minecraft.client.util.ObjectAllocator;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.profiler.Profiler;
-import org.cobalt.util.render.WorldRenderContext;
+import org.cobalt.api.util.render.WorldRenderContext;
 import org.cobalt.api.event.impl.WorldRenderEvent;
 import org.joml.Matrix4f;
 import org.joml.Vector4f;

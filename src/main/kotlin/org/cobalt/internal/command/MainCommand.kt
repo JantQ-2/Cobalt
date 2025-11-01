@@ -4,7 +4,7 @@ import org.cobalt.api.command.Command
 import org.cobalt.api.command.annotation.DefaultHandler
 import org.cobalt.internal.ui.screen.ConfigScreen
 
-object MainCommand : Command(
+internal object MainCommand : Command(
   name = "cobalt",
   aliases = arrayOf("cb")
 ) {
