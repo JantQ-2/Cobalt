@@ -6,6 +6,7 @@ import org.cobalt.api.command.CommandManager
 import org.cobalt.api.event.EventBus
 import org.cobalt.internal.command.MainCommand
 import org.cobalt.api.util.helper.TickScheduler
+import org.cobalt.internal.rpc.RichPresenceManager
 
 object CoreMod : ClientModInitializer{
   val mc: MinecraftClient
@@ -20,6 +21,7 @@ object CoreMod : ClientModInitializer{
       TickScheduler
     ).forEach { EventBus.register(it) }
 
+    RichPresenceManager.startRpc()
     println("Cobalt Mod Initialized")
   }
 
