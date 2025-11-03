@@ -49,7 +49,7 @@ object DiscordPresence {
       return
 
     rpc.setState(states.random())
-    DiscordIPC.setActivity(rpc);
+    DiscordIPC.setActivity(rpc)
     lastUpdate = System.currentTimeMillis()
   }
 
