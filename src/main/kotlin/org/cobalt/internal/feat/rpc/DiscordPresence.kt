@@ -1,4 +1,4 @@
-package org.cobalt.api.feat.rpc
+package org.cobalt.internal.feat.rpc
 
 import meteordevelopment.discordipc.DiscordIPC
 import meteordevelopment.discordipc.RichPresence
@@ -6,7 +6,7 @@ import org.cobalt.Cobalt
 import org.cobalt.api.event.annotation.SubscribeEvent
 import org.cobalt.api.event.impl.client.TickEvent
 
-object DiscordPresence {
+internal object DiscordPresence {
 
   private val rpc: RichPresence = RichPresence()
   private var lastUpdate: Long = System.currentTimeMillis()
@@ -41,6 +41,8 @@ object DiscordPresence {
     rpc.setLargeImage("logo", "${Cobalt.MOD_NAME} ${Cobalt.VERSION}")
     rpc.setDetails("Minecraft ${Cobalt.MC_VERSION}")
     rpc.setState(states.random())
+
+    DiscordIPC.setActivity(rpc)
   }
 
   @SubscribeEvent

@@ -15,6 +15,7 @@ import org.cobalt.internal.helper.Config
 import org.cobalt.internal.ui.animation.EaseInOutAnimation
 import org.cobalt.internal.ui.component.impl.CategoryComponent
 import org.cobalt.internal.ui.component.impl.ModuleComponent
+import org.cobalt.internal.ui.component.impl.SearchbarComponent
 import org.cobalt.internal.ui.util.Constants
 import org.cobalt.internal.ui.util.ScrollHandler
 import org.cobalt.internal.ui.util.isHoveringOver
@@ -28,21 +29,35 @@ internal object ConfigScreen : Screen(Text.empty()) {
   private val categories = mutableListOf<CategoryComponent>()
   private val modules = mutableListOf<ModuleComponent>()
 
-  private var selectedCategory: Category = ModuleManager.getCategories().first()
+  private var selectedCategory: Category? = ModuleManager.getCategories().first()
+  private var selectedModule: ModuleComponent? = null
 
   private val categoryScroll = ScrollHandler()
   private val moduleScroll = ScrollHandler()
+  private val settingScroll = ScrollHandler()
 
   fun setSelectedCategory(category: Category) {
     if (category != selectedCategory) {
       selectedCategory = category
+      selectedModule = null
       updateRenderedModules()
       moduleScroll.reset()
+      settingScroll.reset()
+    }
+  }
+
+  fun setSelectedModule(moduleComponent: ModuleComponent) {
+    if (moduleComponent != selectedModule) {
+      selectedModule = moduleComponent
+      selectedCategory = null
+      moduleScroll.reset()
+      settingScroll.reset()
     }
   }
 
   fun updateRenderedModules() {
     modules.clear()
+
     modules.addAll(
       ModuleManager.getModules()
         .filter { it.category == selectedCategory }
@@ -74,7 +89,7 @@ internal object ConfigScreen : Screen(Text.empty()) {
 
     val categoryContentHeight = categories.size * 40f
     val moduleRows = (modules.size + 2) / 3
-    val moduleContentHeight = moduleRows * (Constants.MODULE_HEIGHT + 10f)
+    val moduleContentHeight = moduleRows * (Constants.MODULE_HEIGHT + 15f)
 
     categoryScroll.setMaxScroll(categoryContentHeight, Constants.SIDEBAR_HEIGHT - 80f)
     moduleScroll.setMaxScroll(moduleContentHeight, Constants.BODY_HEIGHT)
@@ -99,7 +114,7 @@ internal object ConfigScreen : Screen(Text.empty()) {
     NVGRenderer.rect(
       startX, startY,
       Constants.SIDEBAR_WIDTH, Constants.SIDEBAR_HEIGHT,
-      Constants.COLOR_BACKGROUND.rgb, 6F
+      Constants.COLOR_BACKGROUND.rgb, 4F
     )
 
     NVGRenderer.textWidth("cb", 20F).let {
@@ -140,15 +155,49 @@ internal object ConfigScreen : Screen(Text.empty()) {
       startX + Constants.SIDEBAR_WIDTH + 3F,
       startY,
       Constants.TOPBAR_WIDTH, Constants.TOPBAR_HEIGHT,
-      Constants.COLOR_BACKGROUND.rgb, 6F
+      Constants.COLOR_BACKGROUND.rgb, 4F
     )
 
-    NVGRenderer.text(
-      selectedCategory.name,
-      startX + Constants.SIDEBAR_WIDTH + 23F,
-      startY + (Constants.TOPBAR_HEIGHT / 2) - 9F,
-      18F, Constants.COLOR_WHITE.rgb
-    )
+    if (selectedCategory != null) {
+      NVGRenderer.text(
+        selectedCategory!!.name,
+        startX + Constants.SIDEBAR_WIDTH + 30.5F,
+        startY + (Constants.TOPBAR_HEIGHT / 2) - 7.5F,
+        15F, Constants.COLOR_WHITE.rgb
+      )
+    } else {
+      NVGRenderer.rect(
+        startX + Constants.SIDEBAR_WIDTH + 18F,
+        startY + (Constants.TOPBAR_HEIGHT / 2) - 12.5F,
+        25F, 25F, Constants.COLOR_SURFACE.rgb, 4F
+      )
+
+      NVGRenderer.hollowRect(
+        startX + Constants.SIDEBAR_WIDTH + 18F,
+        startY + (Constants.TOPBAR_HEIGHT / 2) - 12.5F,
+        25F, 25F, 1F, Constants.COLOR_BORDER.rgb, 4F
+      )
+
+      NVGRenderer.image(
+        backCaretImage,
+        startX + Constants.SIDEBAR_WIDTH + 27F,
+        startY + (Constants.TOPBAR_HEIGHT / 2) - 6F,
+        7F, 12F,
+        colorMask = Constants.COLOR_WHITE.rgb
+      )
+
+      NVGRenderer.text(
+        selectedModule!!.getModule().name,
+        startX + Constants.SIDEBAR_WIDTH + 53F,
+        startY + (Constants.TOPBAR_HEIGHT / 2) - 7.5F,
+        15F, Constants.COLOR_WHITE.rgb
+      )
+    }
+
+     SearchbarComponent.draw(
+      startX + Constants.SIDEBAR_WIDTH + Constants.TOPBAR_WIDTH - Constants.SEARCHBAR_WIDTH - 15F,
+      startY + (Constants.TOPBAR_HEIGHT / 2) - (Constants.SEARCHBAR_HEIGHT / 2)
+     )
   }
 
   private fun drawBody(startX: Float, startY: Float) {
@@ -156,7 +205,7 @@ internal object ConfigScreen : Screen(Text.empty()) {
       startX + Constants.SIDEBAR_WIDTH + 3F,
       startY + Constants.TOPBAR_HEIGHT + 3F,
       Constants.BODY_WIDTH, Constants.BODY_HEIGHT,
-      Constants.COLOR_BACKGROUND.rgb, 6F
+      Constants.COLOR_BACKGROUND.rgb, 4F
     )
 
     NVGRenderer.pushScissor(
@@ -165,13 +214,17 @@ internal object ConfigScreen : Screen(Text.empty()) {
       Constants.BODY_WIDTH, Constants.BODY_HEIGHT
     )
 
-    for ((index, module) in modules.withIndex()) {
-      val col = index % 3
-      val row = index / 3
-      module.draw(
-        startX + Constants.SIDEBAR_WIDTH + 3f + 5.5f + col * (Constants.MODULE_WIDTH + 5.5f),
-        startY + Constants.TOPBAR_HEIGHT + 10f + row * (Constants.MODULE_HEIGHT + 10f) - moduleScroll.getOffset()
-      )
+    if (selectedModule == null) {
+      for ((index, module) in modules.withIndex()) {
+        val col = index % 3
+        val row = index / 3
+        module.draw(
+          startX + Constants.SIDEBAR_WIDTH + 3f + 10f + col * (Constants.MODULE_WIDTH + 10f),
+          startY + Constants.TOPBAR_HEIGHT + 15f + row * (Constants.MODULE_HEIGHT + 15f) - moduleScroll.getOffset()
+        )
+      }
+    } else {
+      // Render selected module settings
     }
 
     NVGRenderer.popScissor()
@@ -213,6 +266,24 @@ internal object ConfigScreen : Screen(Text.empty()) {
   }
 
   override fun mouseClicked(click: Click, doubled: Boolean): Boolean {
+    val width = mc.window.width.toFloat()
+    val height = mc.window.height.toFloat()
+
+    val startX = (width / 2) - (Constants.BASE_WIDTH / 2)
+    val startY = (height / 2) - (Constants.BASE_HEIGHT / 2)
+
+    selectedModule?.let {
+      if (
+        isHoveringOver(
+          startX + Constants.SIDEBAR_WIDTH + 20F,
+          startY + (Constants.TOPBAR_HEIGHT / 2) - 17.5F,
+          35F, 35F
+        )
+      ) {
+        setSelectedCategory(it.getModule().category)
+      }
+    }
+
     for (module in modules) {
       if (module.onClick(click.button())) {
         return true
@@ -252,5 +323,7 @@ internal object ConfigScreen : Screen(Text.empty()) {
       mc.setScreen(this)
     }
   }
+
+  val backCaretImage = NVGRenderer.createImage("/assets/cobalt/icons/caret_back.svg")
 
 }

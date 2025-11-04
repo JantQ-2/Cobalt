@@ -15,7 +15,7 @@ internal class CategoryComponent(
   private val colorAnim = ColorAnimation(250L)
   private var wasSelected = false
 
-  fun draw(x: Float, y: Float, selectedCategory: Category) {
+  fun draw(x: Float, y: Float, selectedCategory: Category?) {
     super.draw(x, y)
 
     val isSelected = category == selectedCategory

@@ -1,6 +1,6 @@
 package org.cobalt.internal.ui.component
 
-internal abstract class Component {
+abstract class Component {
 
   var x: Float = -1f
   var y: Float = -1f

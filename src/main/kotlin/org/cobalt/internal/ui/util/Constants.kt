@@ -14,14 +14,18 @@ internal object Constants {
   const val TOPBAR_WIDTH = 677F
   const val TOPBAR_HEIGHT = 57F
 
+  /** Dimensions for elements in topbar */
+  const val SEARCHBAR_WIDTH = 180F
+  const val SEARCHBAR_HEIGHT = 35F
+
   /** Dimensions for elements in body */
-  const val MODULE_WIDTH = 218F
-  const val MODULE_HEIGHT = 45F
+  const val MODULE_WIDTH = 212F
+  const val MODULE_HEIGHT = 40F
 
   /** UI color palette */
   val COLOR_BACKGROUND = Color(17, 24, 28)
   val COLOR_SURFACE = Color(24, 28, 32)
-  val COLOR_BORDER = Color(44, 48, 53)
+  val COLOR_BORDER = Color(46, 46, 46)
   val COLOR_ACCENT = Color(52, 126, 178)
   val COLOR_WHITE = Color(248, 249, 250)
 

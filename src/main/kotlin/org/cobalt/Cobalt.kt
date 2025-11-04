@@ -4,7 +4,7 @@ import net.fabricmc.api.ClientModInitializer
 import net.minecraft.client.MinecraftClient
 import org.cobalt.api.command.CommandManager
 import org.cobalt.api.event.EventBus
-import org.cobalt.api.feat.rpc.DiscordPresence
+import org.cobalt.internal.feat.rpc.DiscordPresence
 import org.cobalt.api.util.TickScheduler
 import org.cobalt.internal.addon.AddonManager
 import org.cobalt.internal.command.MainCommand

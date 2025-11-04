@@ -5,6 +5,7 @@ import org.cobalt.api.module.Module
 import org.cobalt.api.util.ui.NVGRenderer
 import org.cobalt.internal.ui.animation.ColorAnimation
 import org.cobalt.internal.ui.component.Component
+import org.cobalt.internal.ui.screen.ConfigScreen
 import org.cobalt.internal.ui.util.Constants
 import org.cobalt.internal.ui.util.Constants.MODULE_HEIGHT
 import org.cobalt.internal.ui.util.Constants.MODULE_WIDTH
@@ -37,13 +38,13 @@ internal class ModuleComponent(
     val disabledText = Constants.COLOR_WHITE
     val text = colorAnim.get(disabledText, enabledText, !module.isEnabled).rgb
 
-    NVGRenderer.rect(x, y, MODULE_WIDTH, MODULE_HEIGHT, bg, 6F)
-    NVGRenderer.hollowRect(x, y, MODULE_WIDTH, MODULE_HEIGHT, 1F, border, 6F)
+    NVGRenderer.rect(x, y, MODULE_WIDTH, MODULE_HEIGHT, bg, 4F)
+    NVGRenderer.hollowRect(x, y, MODULE_WIDTH, MODULE_HEIGHT, 1F, border, 4F)
 
     NVGRenderer.text(
       module.name,
-      x + 20F, y + (MODULE_HEIGHT / 2F) - 7F,
-      14F, text,
+      x + 15F, y + (MODULE_HEIGHT / 2F) - 6F,
+      12F, text,
     )
   }
 
@@ -55,9 +56,17 @@ internal class ModuleComponent(
       0 -> {
         module.isEnabled = !module.isEnabled
       }
+
+      1 -> {
+        ConfigScreen.setSelectedModule(this)
+      }
     }
 
     return true
+  }
+
+  fun getModule(): Module {
+    return module
   }
 
 }
