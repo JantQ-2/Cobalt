@@ -24,12 +24,13 @@ internal abstract class Animation<T>(private val duration: Long) {
 
   fun getPercent(): Float {
     if (!animating) return 100f
-
     val percent = ((System.currentTimeMillis() - startTime) / duration.toFloat() * 100f)
+
     if (percent >= 100f) {
       animating = false
       return 100f
     }
+
     return percent.coerceAtMost(100f)
   }
 

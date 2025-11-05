@@ -13,6 +13,7 @@ import org.cobalt.api.util.TickScheduler
 import org.cobalt.api.util.ui.NVGRenderer
 import org.cobalt.internal.helper.Config
 import org.cobalt.internal.ui.animation.EaseInOutAnimation
+import org.cobalt.internal.ui.animation.EaseOutAnimation
 import org.cobalt.internal.ui.component.impl.CategoryComponent
 import org.cobalt.internal.ui.component.impl.ModuleComponent
 import org.cobalt.internal.ui.component.impl.SearchbarComponent
@@ -26,6 +27,10 @@ internal object ConfigScreen : Screen(Text.empty()) {
   private val openAnim = EaseInOutAnimation(400)
   private var wasClosed = true
 
+  /** Slide animation for the title in top bar */
+  private val slideAnimation = EaseOutAnimation(200)
+  private var isInModuleView = false
+
   private val categories = mutableListOf<CategoryComponent>()
   private val modules = mutableListOf<ModuleComponent>()
 
@@ -37,27 +42,38 @@ internal object ConfigScreen : Screen(Text.empty()) {
   private val settingScroll = ScrollHandler()
 
   fun setSelectedCategory(category: Category) {
-    if (category != selectedCategory) {
-      selectedCategory = category
-      selectedModule = null
-      updateRenderedModules()
-      moduleScroll.reset()
-      settingScroll.reset()
+    if (category == selectedCategory) return
+
+    selectedCategory = category
+    selectedModule = null
+
+    updateRenderedModules()
+    moduleScroll.reset()
+    settingScroll.reset()
+
+    if (isInModuleView) {
+      isInModuleView = false
+      slideAnimation.start()
     }
   }
 
-  fun setSelectedModule(moduleComponent: ModuleComponent) {
-    if (moduleComponent != selectedModule) {
-      selectedModule = moduleComponent
-      selectedCategory = null
-      moduleScroll.reset()
-      settingScroll.reset()
+  fun setSelectedModule(module: ModuleComponent) {
+    if (module == selectedModule) return
+
+    selectedModule = module
+    selectedCategory = null
+
+    moduleScroll.reset()
+    settingScroll.reset()
+
+    if (!isInModuleView) {
+      isInModuleView = true
+      slideAnimation.start()
     }
   }
 
   fun updateRenderedModules() {
     modules.clear()
-
     modules.addAll(
       ModuleManager.getModules()
         .filter { it.category == selectedCategory }
@@ -67,11 +83,7 @@ internal object ConfigScreen : Screen(Text.empty()) {
 
   init {
     EventBus.register(this)
-
-    categories.addAll(ModuleManager.getCategories().map {
-      CategoryComponent(it)
-    })
-
+    categories.addAll(ModuleManager.getCategories().map(::CategoryComponent))
     updateRenderedModules()
   }
 
@@ -84,15 +96,10 @@ internal object ConfigScreen : Screen(Text.empty()) {
     val width = mc.window.width.toFloat()
     val height = mc.window.height.toFloat()
 
-    val startX = (width / 2) - (Constants.BASE_WIDTH / 2)
-    val startY = (height / 2) - (Constants.BASE_HEIGHT / 2)
+    val (startX, startY) = getStartCoords(width, height)
 
-    val categoryContentHeight = categories.size * 40f
-    val moduleRows = (modules.size + 2) / 3
-    val moduleContentHeight = moduleRows * (Constants.MODULE_HEIGHT + 15f)
-
-    categoryScroll.setMaxScroll(categoryContentHeight, Constants.SIDEBAR_HEIGHT - 80f)
-    moduleScroll.setMaxScroll(moduleContentHeight, Constants.BODY_HEIGHT)
+    categoryScroll.setMaxScroll(categories.size * 40f, Constants.SIDEBAR_HEIGHT - 80f)
+    moduleScroll.setMaxScroll((modules.size + 2f) / 3f * (Constants.MODULE_HEIGHT + 15f), Constants.BODY_HEIGHT)
 
     NVGRenderer.beginFrame(width, height)
 
@@ -158,14 +165,28 @@ internal object ConfigScreen : Screen(Text.empty()) {
       Constants.COLOR_BACKGROUND.rgb, 4F
     )
 
-    if (selectedCategory != null) {
-      NVGRenderer.text(
-        selectedCategory!!.name,
-        startX + Constants.SIDEBAR_WIDTH + 30.5F,
-        startY + (Constants.TOPBAR_HEIGHT / 2) - 7.5F,
-        15F, Constants.COLOR_WHITE.rgb
-      )
+    val textX = if (isInModuleView) {
+      if (slideAnimation.isAnimating())
+        slideAnimation.get(30.5F, 53F)
+      else 53F
     } else {
+      if (slideAnimation.isAnimating())
+        slideAnimation.get(53F, 30.5F)
+      else 30.5F
+    }
+
+    NVGRenderer.text(
+      if (selectedCategory != null)
+        selectedCategory!!.name
+      else
+        selectedModule!!.getModule().name,
+
+      startX + Constants.SIDEBAR_WIDTH + textX,
+      startY + (Constants.TOPBAR_HEIGHT / 2) - 7.5F,
+      15F, Constants.COLOR_WHITE.rgb
+    )
+
+    selectedModule?.let {
       NVGRenderer.rect(
         startX + Constants.SIDEBAR_WIDTH + 18F,
         startY + (Constants.TOPBAR_HEIGHT / 2) - 12.5F,
@@ -184,13 +205,6 @@ internal object ConfigScreen : Screen(Text.empty()) {
         startY + (Constants.TOPBAR_HEIGHT / 2) - 6F,
         7F, 12F,
         colorMask = Constants.COLOR_WHITE.rgb
-      )
-
-      NVGRenderer.text(
-        selectedModule!!.getModule().name,
-        startX + Constants.SIDEBAR_WIDTH + 53F,
-        startY + (Constants.TOPBAR_HEIGHT / 2) - 7.5F,
-        15F, Constants.COLOR_WHITE.rgb
       )
     }
 
@@ -236,10 +250,7 @@ internal object ConfigScreen : Screen(Text.empty()) {
     horizontalAmount: Double,
     verticalAmount: Double
   ): Boolean {
-    val width = mc.window.width.toFloat()
-    val height = mc.window.height.toFloat()
-    val startX = (width / 2) - (Constants.BASE_WIDTH / 2)
-    val startY = (height / 2) - (Constants.BASE_HEIGHT / 2)
+    val (startX, startY) = getStartCoords()
 
     if (
       isHoveringOver(
@@ -266,11 +277,7 @@ internal object ConfigScreen : Screen(Text.empty()) {
   }
 
   override fun mouseClicked(click: Click, doubled: Boolean): Boolean {
-    val width = mc.window.width.toFloat()
-    val height = mc.window.height.toFloat()
-
-    val startX = (width / 2) - (Constants.BASE_WIDTH / 2)
-    val startY = (height / 2) - (Constants.BASE_HEIGHT / 2)
+    val (startX, startY) = getStartCoords()
 
     selectedModule?.let {
       if (
@@ -297,6 +304,16 @@ internal object ConfigScreen : Screen(Text.empty()) {
     }
 
     return super.mouseClicked(click, doubled)
+  }
+
+  private fun getStartCoords(
+    width: Float = mc.window.width.toFloat(),
+    height: Float = mc.window.height.toFloat(),
+  ): Pair<Float, Float> {
+    return Pair(
+      (width / 2) - (Constants.BASE_WIDTH / 2),
+      (height / 2) - (Constants.BASE_HEIGHT / 2)
+    )
   }
 
   override fun shouldPause(): Boolean {
