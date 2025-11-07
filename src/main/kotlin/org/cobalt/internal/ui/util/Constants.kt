@@ -31,6 +31,7 @@ internal object Constants {
   val COLOR_SURFACE = Color(24, 28, 32)
   val COLOR_BORDER = Color(46, 46, 46)
   val COLOR_ACCENT = Color(52, 126, 178)
+  val COLOR_GRAY = Color(153, 154, 161)
   val COLOR_WHITE = Color(248, 249, 250)
 
 }

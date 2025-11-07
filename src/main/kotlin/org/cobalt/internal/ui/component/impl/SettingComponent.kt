@@ -23,6 +23,20 @@ internal class SettingComponent(
       Constants.SETTING_WIDTH, Constants.SETTING_HEIGHT,
       1F, Constants.COLOR_BORDER.rgb, 4F,
     )
+
+    NVGRenderer.text(
+      setting.name,
+      x + 15F,
+      y + (Constants.SETTING_HEIGHT / 2F) - 15F,
+      14F, Constants.COLOR_WHITE.rgb,
+    )
+
+    NVGRenderer.text(
+      setting.description,
+      x + 15F,
+      y + Constants.SETTING_HEIGHT / 2F + 4F,
+      11F, Constants.COLOR_GRAY.rgb,
+    )
   }
 
 }

@@ -14,14 +14,11 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 public class MixinAutoDiscover implements IMixinConfigPlugin {
-    private String mixinPackage;
+
     private final List<String> mixins = new ArrayList<>();
 
     @Override
     public void onLoad(String mixinPackage) {
-        this.mixinPackage = mixinPackage;
-        System.out.println("plugin loaded for package: " + mixinPackage);
-
         try {
             URL location = MixinAutoDiscover.class.getProtectionDomain().getCodeSource().getLocation();
             Path path = Paths.get(location.toURI());
@@ -39,7 +36,7 @@ public class MixinAutoDiscover implements IMixinConfigPlugin {
             }
 
         } catch (IOException | URISyntaxException e) {
-            System.err.println("failed to auto-discover mixins: " + e.getMessage());
+            System.err.println("Failed to auto-discover mixins: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -49,7 +46,7 @@ public class MixinAutoDiscover implements IMixinConfigPlugin {
         Path mixinDir = root.resolve(mixinPath);
 
         if (!Files.exists(mixinDir)) {
-            System.out.println("mixin directory does not exist: " + mixinDir);
+            System.out.println("Mixin directory does not exist: " + mixinDir);
             return;
         }
 
@@ -76,8 +73,8 @@ public class MixinAutoDiscover implements IMixinConfigPlugin {
             ZipEntry entry;
             while ((entry = zip.getNextEntry()) != null) {
                 String entryName = entry.getName();
-                if (entryName.startsWith(mixinPath) && 
-                    entryName.endsWith(".class") && 
+                if (entryName.startsWith(mixinPath) &&
+                    entryName.endsWith(".class") &&
                     !entryName.endsWith("package-info.class")) {
                     String className = entryName
                             .replace("/", ".")
