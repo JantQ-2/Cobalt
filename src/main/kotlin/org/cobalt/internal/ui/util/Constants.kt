@@ -22,6 +22,10 @@ internal object Constants {
   const val MODULE_WIDTH = 212F
   const val MODULE_HEIGHT = 40F
 
+  /** Dimensions for settings in module body */
+  const val SETTING_WIDTH = 657F
+  const val SETTING_HEIGHT = 50F
+
   /** UI color palette */
   val COLOR_BACKGROUND = Color(17, 24, 28)
   val COLOR_SURFACE = Color(24, 28, 32)

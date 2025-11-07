@@ -17,6 +17,7 @@ import org.cobalt.internal.ui.animation.EaseOutAnimation
 import org.cobalt.internal.ui.component.impl.CategoryComponent
 import org.cobalt.internal.ui.component.impl.ModuleComponent
 import org.cobalt.internal.ui.component.impl.SearchbarComponent
+import org.cobalt.internal.ui.component.impl.SettingComponent
 import org.cobalt.internal.ui.util.Constants
 import org.cobalt.internal.ui.util.ScrollHandler
 import org.cobalt.internal.ui.util.isHoveringOver
@@ -33,8 +34,9 @@ internal object ConfigScreen : Screen(Text.empty()) {
 
   private val categories = mutableListOf<CategoryComponent>()
   private val modules = mutableListOf<ModuleComponent>()
+  private val settings = mutableListOf<SettingComponent>()
 
-  private var selectedCategory: Category? = ModuleManager.getCategories().first()
+  private var selectedCategory: Category? = ModuleManager.getCategories().firstOrNull()
   private var selectedModule: ModuleComponent? = null
 
   private val categoryScroll = ScrollHandler()
@@ -59,6 +61,11 @@ internal object ConfigScreen : Screen(Text.empty()) {
 
   fun setSelectedModule(module: ModuleComponent) {
     if (module == selectedModule) return
+
+    settings.clear()
+    settings.addAll(module.getModule().getSettings().map(::SettingComponent))
+
+    println(module.getModule().getSettings().size)
 
     selectedModule = module
     selectedCategory = null
@@ -100,6 +107,13 @@ internal object ConfigScreen : Screen(Text.empty()) {
 
     categoryScroll.setMaxScroll(categories.size * 40f, Constants.SIDEBAR_HEIGHT - 80f)
     moduleScroll.setMaxScroll((modules.size + 2f) / 3f * (Constants.MODULE_HEIGHT + 15f), Constants.BODY_HEIGHT)
+
+    selectedModule?.let {
+      settingScroll.setMaxScroll(
+        (it.getModule().getSettings().size) * (Constants.SETTING_HEIGHT + 15f),
+        Constants.BODY_HEIGHT
+      )
+    }
 
     NVGRenderer.beginFrame(width, height)
 
@@ -175,12 +189,10 @@ internal object ConfigScreen : Screen(Text.empty()) {
       else 30.5F
     }
 
-    NVGRenderer.text(
-      if (selectedCategory != null)
-        selectedCategory!!.name
-      else
-        selectedModule!!.getModule().name,
+    val title = selectedCategory?.name ?: selectedModule?.getModule()?.name ?: "No Selection"
 
+    NVGRenderer.text(
+      title,
       startX + Constants.SIDEBAR_WIDTH + textX,
       startY + (Constants.TOPBAR_HEIGHT / 2) - 7.5F,
       15F, Constants.COLOR_WHITE.rgb
@@ -208,10 +220,10 @@ internal object ConfigScreen : Screen(Text.empty()) {
       )
     }
 
-     SearchbarComponent.draw(
+    SearchbarComponent.draw(
       startX + Constants.SIDEBAR_WIDTH + Constants.TOPBAR_WIDTH - Constants.SEARCHBAR_WIDTH - 15F,
       startY + (Constants.TOPBAR_HEIGHT / 2) - (Constants.SEARCHBAR_HEIGHT / 2)
-     )
+    )
   }
 
   private fun drawBody(startX: Float, startY: Float) {
@@ -238,7 +250,12 @@ internal object ConfigScreen : Screen(Text.empty()) {
         )
       }
     } else {
-      // Render selected module settings
+      for ((row, settings) in settings.withIndex()) {
+        settings.draw(
+          startX + Constants.SIDEBAR_WIDTH + 3f + 10f,
+          startY + Constants.TOPBAR_HEIGHT + 15f + row * (Constants.SETTING_HEIGHT + 15f) - settingScroll.getOffset()
+        )
+      }
     }
 
     NVGRenderer.popScissor()
@@ -269,7 +286,11 @@ internal object ConfigScreen : Screen(Text.empty()) {
         Constants.BODY_WIDTH, Constants.BODY_HEIGHT
       )
     ) {
-      moduleScroll.handleScroll(verticalAmount)
+      if (selectedModule == null)
+        moduleScroll.handleScroll(verticalAmount)
+      else
+        settingScroll.handleScroll(verticalAmount)
+
       return true
     }
 
