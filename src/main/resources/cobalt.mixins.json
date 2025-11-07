@@ -3,17 +3,9 @@
   "minVersion": "0.8",
   "compatibilityLevel": "JAVA_21",
   "package": "org.cobalt.mixin",
-  "client": [
-    "network.PacketEvent_ClientConnectionMixin",
-    "client.TickEvent_MinecraftClientMixin",
-    "player.LookLock_MouseMixin",
-    "render.NvgEvent_GameRendererMixin",
-    "render.TextureTracking_GlStateManagerMixin",
-    "render.WorldContext_WorldRendererMixin"
-  ],
-  "mixins": [
-    "rsa.RSANuker_YggdrasilServicesKeyInfoMixin"
-  ],
+  "plugin": "org.cobalt.init.MixinAutoDiscover",
+  "mixins": [],
+  "client": [],
   "injectors": {
     "defaultRequire": 1
   }
