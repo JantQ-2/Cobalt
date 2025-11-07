@@ -106,11 +106,11 @@ internal object ConfigScreen : Screen(Text.empty()) {
     val (startX, startY) = getStartCoords(width, height)
 
     categoryScroll.setMaxScroll(categories.size * 40f, Constants.SIDEBAR_HEIGHT - 80f)
-    moduleScroll.setMaxScroll((modules.size + 2f) / 3f * (Constants.MODULE_HEIGHT + 15f), Constants.BODY_HEIGHT)
+    moduleScroll.setMaxScroll((modules.size) / 3f * (Constants.MODULE_HEIGHT + 15f) + 10F, Constants.BODY_HEIGHT)
 
     selectedModule?.let {
       settingScroll.setMaxScroll(
-        (it.getModule().getSettings().size) * (Constants.SETTING_HEIGHT + 15f),
+        (settings.size) * (Constants.SETTING_HEIGHT + 15f) + 10F,
         Constants.BODY_HEIGHT
       )
     }
