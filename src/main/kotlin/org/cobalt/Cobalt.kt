@@ -39,8 +39,4 @@ object Cobalt : ClientModInitializer {
     DiscordPresence.connect()
     println("Cobalt Mod Initialized")
   }
-  @SubscribeEvent
-  fun onBCE(event: BlockChangeEvent) {
-    ChatUtils.sendDebug("Block changed at ${event.pos}: ${event.oldBlock.block.name.string} -> ${event.newBlock.block.name.string}")
-  }
 }
