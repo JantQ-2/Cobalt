@@ -6,7 +6,9 @@ import net.fabricmc.loader.impl.launch.FabricLauncherBase
 import org.cobalt.api.addon.Addon
 import org.cobalt.api.util.ChatUtils
 import java.nio.file.*
+import org.cobalt.api.module.ModuleManager
 import java.util.concurrent.ConcurrentHashMap
+import org.cobalt.internal.ui.screen.ConfigScreen
 import java.util.jar.JarFile
 import kotlin.io.path.*
 
@@ -62,10 +64,10 @@ object Loader {
             val lastModified = jarPath.getLastModifiedTime().toMillis()
             val existing = loadedAddons[jarPath]
 
-            if (existing != null && existing.lastModified == lastModified && existing.loaded) {
-                ChatUtils.sendDebug("addon ${jarPath.fileName} is already loaded, skipping")
-                return
-            }
+            // if (existing != null && existing.lastModified == lastModified && existing.loaded) {
+            //     ChatUtils.sendDebug("addon ${jarPath.fileName} is already loaded, skipping")
+            //     return
+            // }
 
             FabricLauncherBase.getLauncher().addToClassPath(jarPath)
 
@@ -224,32 +226,24 @@ object Loader {
     fun reload() {
         val startTime = System.currentTimeMillis()
         ChatUtils.sendMessage("Reloading!")
+        ModuleManager.clearModules()
+        
         val currentJars = addonsDir.listDirectoryEntries("*.jar").toSet()
         val previousJars = loadedAddons.keys.toSet()
-
-        val newJars = currentJars - previousJars
-        val modifiedJars = currentJars.intersect(previousJars)
         val removedJars = previousJars - currentJars
 
-        newJars.forEach { loadExternalAddon(it) }
-
-        modifiedJars.forEach { jarPath ->
-            val modified = jarPath.getLastModifiedTime().toMillis()
-            val old = loadedAddons[jarPath]
-            if (old != null && old.lastModified != modified) {
-                ChatUtils.sendDebug("reloading modified addon: ${jarPath.fileName}")
-                loadExternalAddon(jarPath)
-            }
+        currentJars.forEach { jarPath ->
+            loadExternalAddon(jarPath)
         }
 
         removedJars.forEach { jarPath ->
             ChatUtils.sendDebug("Addon removed: ${jarPath.fileName}")
-            loadedAddons[jarPath]?.let {
-                loadedAddons[jarPath] = it.copy(loaded = false)
-            }
+            loadedAddons.remove(jarPath)  
         }
+        
         val endTime = System.currentTimeMillis()
         ChatUtils.sendMessage("Reload complete. Active addons: ${getActiveAddonCount()} - took ${endTime - startTime}ms")
+        ConfigScreen.onReload()
     }
 
     fun getLoadedAddons(): List<AddonInfo> = loadedAddons.values.toList()

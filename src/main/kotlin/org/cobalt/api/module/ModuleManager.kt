@@ -18,5 +18,9 @@ object ModuleManager {
       .distinct()
       .sortedBy { it.name }
   }
+  
+  fun clearModules() {
+    moduleList.clear()
+  }
 
 }

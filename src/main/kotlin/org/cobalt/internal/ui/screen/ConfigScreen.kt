@@ -80,13 +80,17 @@ internal object ConfigScreen : Screen(Text.empty()) {
   }
 
   fun updateRenderedModules() {
-    modules.clear()
-    modules.addAll(
-      ModuleManager.getModules()
-        .filter { it.category == selectedCategory }
-        .map { ModuleComponent(it) }
-    )
+      modules.clear()
+
+      val filtered = ModuleManager.getModules()
+          .filter { it.category == selectedCategory }
+
+      // for (m in filtered) {
+      //     println("Module instance: ${m.hashCode()} - ${m.name}")
+      // }
+      modules.addAll(filtered.map { ModuleComponent(it) })
   }
+
 
   init {
     EventBus.register(this)
@@ -342,6 +346,7 @@ internal object ConfigScreen : Screen(Text.empty()) {
   }
 
   override fun init() {
+    onReload()
     if (wasClosed) {
       openAnim.start()
       wasClosed = false
@@ -360,6 +365,16 @@ internal object ConfigScreen : Screen(Text.empty()) {
     TickScheduler.schedule(1) {
       mc.setScreen(this)
     }
+  }
+
+  fun onReload() {
+    categories.clear()
+    categories.addAll(ModuleManager.getCategories().map(::CategoryComponent))
+    selectedCategory = ModuleManager.getCategories().firstOrNull()
+    selectedModule = null
+    updateRenderedModules()
+    moduleScroll.reset()
+    settingScroll.reset()
   }
 
   val backCaretImage = NVGRenderer.createImage("/assets/cobalt/icons/caret_back.svg")
