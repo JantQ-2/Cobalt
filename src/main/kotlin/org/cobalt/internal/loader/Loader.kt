@@ -15,8 +15,8 @@ import kotlin.io.path.*
 object Loader {
     private val addonsDir = Paths.get("config/cobalt/addons")
 
-    private val loadedAddons = ConcurrentHashMap<Path, AddonInfo>()
-    private val activeAddons = mutableListOf<Addon>()
+    val loadedAddons = ConcurrentHashMap<Path, AddonInfo>()
+    val activeAddons = mutableListOf<Addon>()
 
     data class AddonInfo(
         val path: Path,
@@ -295,7 +295,7 @@ object Loader {
         }
     }
 
-    fun getLoadedAddons(): List<AddonInfo> = loadedAddons.values.toList()
+    fun getLoadedAddonsList(): List<AddonInfo> = loadedAddons.values.toList()
     fun getActiveAddonCount(): Int = loadedAddons.values.count { it.loaded } + activeAddons.size
     fun getAddons(): List<Addon> = activeAddons.toList()
 }
