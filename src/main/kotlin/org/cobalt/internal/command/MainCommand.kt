@@ -4,6 +4,7 @@ import org.cobalt.api.command.Command
 import org.cobalt.api.command.annotation.DefaultHandler
 import org.cobalt.api.command.annotation.SubCommand
 import org.cobalt.internal.ui.screen.ConfigScreen
+import org.cobalt.internal.feat.general.NameProtect
 
 object MainCommand : Command(
   name = "cobalt",
@@ -34,9 +35,8 @@ object MainCommand : Command(
 
   @SubCommand
   fun dev(subSubCommand: String) {
-      if (subSubCommand == "testreflection") {
-          org.cobalt.api.util.ChatUtils.sendDebug("cat")
-          //org.cobalt.TestArea.runReflectionTest()
+      if (subSubCommand == "tnp") {
+        NameProtect.isEnabled = !NameProtect.isEnabled
       }
   }
 }
