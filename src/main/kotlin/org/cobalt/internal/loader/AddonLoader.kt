@@ -80,6 +80,10 @@ object AddonLoader {
     }
   }
 
+  fun getAddons(): List<Pair<AddonMetadata, Addon>> {
+    return addons.toList()
+  }
+
   data class AddonMetadata(
     val id: String,
     val name: String,
@@ -87,4 +91,5 @@ object AddonLoader {
     val entrypoints: List<String>,
     val mixins: List<String>,
   )
+
 }

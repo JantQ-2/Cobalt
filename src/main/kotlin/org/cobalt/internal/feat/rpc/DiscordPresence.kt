@@ -34,7 +34,7 @@ internal object DiscordPresence {
     "Touching Grass (Rare)"
   )
 
-  fun connect() {
+  init {
     DiscordIPC.start(1406359679772266608L, null)
 
     rpc.setStart(System.currentTimeMillis() / 1000L)
