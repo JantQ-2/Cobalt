@@ -1,15 +1,14 @@
-package org.cobalt.internal.feat.pathfinding
+package org.cobalt.api.feat.pathfinder
 
 import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.util.math.BlockPos
-import org.cobalt.api.feat.pathfinder.Pathfinding
 import net.minecraft.client.gui.screen.ChatScreen
 import org.cobalt.Cobalt.mc
 import org.cobalt.api.event.EventBus
 import org.cobalt.api.util.ChatUtils
 import org.cobalt.util.pathfinding.calculation.PathCalculator
 
-internal object DefaultPathfinder : Pathfinding {
+object DefaultPathfinder : Pathfinding {
   init {
     EventBus.register(this)
   }

@@ -1,9 +1,9 @@
 package org.cobalt.internal.feat.rotation.strategy
 
 import net.minecraft.client.network.ClientPlayerEntity
-import org.cobalt.internal.feat.rotation.DefaultRotationConfig
+import org.cobalt.api.feat.rotation.DefaultRotationConfig
 import org.cobalt.api.util.ChatUtils
-import org.cobalt.internal.feat.rotation.DefaultRotationParameters
+import org.cobalt.api.feat.rotation.DefaultRotationParameters
 import org.cobalt.internal.feat.rotation.RotationExecutor
 import org.cobalt.internal.feat.rotation.RotationMath
 import org.cobalt.internal.feat.rotation.RotationStrategy

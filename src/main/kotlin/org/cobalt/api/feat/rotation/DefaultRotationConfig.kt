@@ -1,8 +1,6 @@
-package org.cobalt.internal.feat.rotation
+package org.cobalt.api.feat.rotation
 
-import org.cobalt.api.feat.rotation.RotationConfig
-
-internal class DefaultRotationConfig : RotationConfig() {
+class DefaultRotationConfig : RotationConfig() {
   val easeFactor: Float = 8f
   val tickDelay: Long = 10
   val defaultEndMultiplier: Float = .5f
