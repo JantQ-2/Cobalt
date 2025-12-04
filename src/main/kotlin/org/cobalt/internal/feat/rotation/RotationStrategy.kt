@@ -1,9 +1,8 @@
 package org.cobalt.internal.feat.rotation
 
 import net.minecraft.client.network.ClientPlayerEntity
-import org.cobalt.api.feat.rotation.DefaultRotationParameters
 
-interface RotationStrategy {
+internal interface RotationStrategy {
   fun perform(
       yaw: Float,
       pitch: Float,

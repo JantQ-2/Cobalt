@@ -1,16 +1,16 @@
-package org.cobalt.api.feat.rotation
+package org.cobalt.internal.feat.rotation
 
 import net.minecraft.client.network.ClientPlayerEntity
+import org.cobalt.api.feat.rotation.Rotation
+import org.cobalt.api.feat.rotation.RotationParameters
 import org.cobalt.api.util.player.MovementManager
 import org.cobalt.internal.feat.rotation.strategy.OvershootRotationStrategy
 import org.cobalt.internal.feat.rotation.strategy.SimpleRotationStrategy
 import kotlin.concurrent.thread
 import kotlin.random.Random
 import org.cobalt.api.util.ChatUtils
-import org.cobalt.internal.feat.rotation.RotationMath
-import org.cobalt.internal.feat.rotation.RotationStrategy
 
-object DefaultRotations : Rotation {
+internal object DefaultRotations : Rotation {
   override val name: String
     get() = "Default"
 
@@ -32,10 +32,10 @@ object DefaultRotations : Rotation {
   }
 
   override fun rotateTo(
-    yaw: Float,
-    pitch: Float,
-    player: ClientPlayerEntity,
-    parameters: RotationParameters,
+      yaw: Float,
+      pitch: Float,
+      player: ClientPlayerEntity,
+      parameters: RotationParameters,
   ) {
     stop()
 
