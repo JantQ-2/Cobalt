@@ -5,6 +5,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.zip.ZipFile
+import net.fabricmc.loader.api.FabricLoader
 import net.fabricmc.loader.impl.launch.FabricLauncherBase
 import org.cobalt.api.addon.Addon
 import org.spongepowered.asm.mixin.Mixins
@@ -16,6 +17,27 @@ object AddonLoader {
   private val gson = Gson()
 
   fun findAddons() {
+    if (FabricLauncherBase.getLauncher().isDevelopment) {
+      for (entry in FabricLoader.getInstance().getEntrypointContainers("cobalt", Addon::class.java)) {
+        val modMeta = entry.provider.metadata
+        val metadata = AddonMetadata(
+          id = modMeta.id,
+          name = modMeta.name,
+          version = modMeta.version?.toString() ?: "unknown",
+          entrypoints = listOf(entry.entrypoint.javaClass.name),
+          mixins = listOf()
+        )
+
+        val addonInstance: Addon = try {
+          entry.entrypoint
+        } catch (e: Throwable) {
+          throw RuntimeException("Failed to initialize addon \"${modMeta.name}\"", e)
+        }
+
+        addons += metadata to addonInstance
+      }
+    }
+
     if (!Files.isDirectory(addonsDir)) {
       Files.createDirectories(addonsDir)
       return
