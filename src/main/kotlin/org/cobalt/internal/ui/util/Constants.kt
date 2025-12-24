@@ -27,7 +27,7 @@ internal object Constants {
   const val SETTING_HEIGHT = 50F
 
   /** UI color palette */
-  val COLOR_BACKGROUND = Color(17, 24, 28)
+  val COLOR_BACKGROUND = Color(0, 0, 0)
   val COLOR_SURFACE = Color(24, 28, 32)
   val COLOR_BORDER = Color(46, 46, 46)
   val COLOR_ACCENT = Color(52, 126, 178)

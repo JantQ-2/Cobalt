@@ -10,6 +10,7 @@ import org.cobalt.api.util.TickScheduler
 import org.cobalt.api.util.ui.NVGRenderer
 import org.cobalt.internal.helper.Config
 import org.cobalt.internal.ui.animation.EaseInOutAnimation
+import org.cobalt.internal.ui.util.Constants
 
 internal object UIScreen : Screen(Text.empty()) {
 
@@ -39,7 +40,14 @@ internal object UIScreen : Screen(Text.empty()) {
       NVGRenderer.translate(-width / 2, -height / 2)
     }
 
-    // Render UI here or smth i give up
+    NVGRenderer.rect(
+      (width / 2) - (Constants.BASE_WIDTH / 2),
+      (height / 2) - (Constants.BASE_HEIGHT / 2),
+      Constants.BASE_WIDTH,
+      Constants.BASE_HEIGHT,
+      Constants.COLOR_BACKGROUND.rgb,
+      5F
+    )
 
     NVGRenderer.endFrame()
   }
