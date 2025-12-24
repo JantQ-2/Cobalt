@@ -1,15 +1,15 @@
-package org.cobalt.internal.feat.rotation
+package org.cobalt.internal.feature.rotation
 
 import net.minecraft.client.network.ClientPlayerEntity
 import org.cobalt.api.util.rotation.Rotation
 import org.cobalt.api.util.player.MovementManager
-import org.cobalt.internal.feat.rotation.strategy.OvershootRotationStrategy
-import org.cobalt.internal.feat.rotation.strategy.SimpleRotationStrategy
+import org.cobalt.internal.feature.rotation.strategy.OvershootRotationStrategy
+import org.cobalt.internal.feature.rotation.strategy.SimpleRotationStrategy
 import kotlin.concurrent.thread
 import kotlin.random.Random
 import org.cobalt.api.util.ChatUtils
 import org.cobalt.api.util.rotation.RotationParameters
-import org.cobalt.internal.feat.rotation.strategy.RotationStrategy
+import org.cobalt.internal.feature.rotation.strategy.RotationStrategy
 
 internal object DefaultRotations : Rotation {
 

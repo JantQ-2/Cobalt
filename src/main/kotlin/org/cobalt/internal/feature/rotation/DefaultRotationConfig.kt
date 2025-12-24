@@ -1,4 +1,4 @@
-package org.cobalt.internal.feat.rotation
+package org.cobalt.internal.feature.rotation
 
 import org.cobalt.api.util.rotation.RotationConfig
 

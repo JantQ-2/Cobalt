@@ -1,4 +1,4 @@
-package org.cobalt.internal.feat.general
+package org.cobalt.internal.feature.general
 
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text

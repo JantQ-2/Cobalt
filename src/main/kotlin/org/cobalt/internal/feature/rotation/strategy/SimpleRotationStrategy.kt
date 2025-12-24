@@ -1,10 +1,9 @@
-package org.cobalt.internal.feat.rotation.strategy
+package org.cobalt.internal.feature.rotation.strategy
 
 import net.minecraft.client.network.ClientPlayerEntity
-import org.cobalt.internal.feat.rotation.DefaultRotationConfig
-import org.cobalt.internal.feat.rotation.DefaultRotationParameters
-import org.cobalt.internal.feat.rotation.RotationExecutor
-import org.cobalt.internal.feat.rotation.strategy.RotationStrategy
+import org.cobalt.internal.feature.rotation.DefaultRotationConfig
+import org.cobalt.internal.feature.rotation.DefaultRotationParameters
+import org.cobalt.internal.feature.rotation.RotationExecutor
 
 internal class SimpleRotationStrategy : RotationStrategy {
   override fun perform(

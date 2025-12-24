@@ -8,8 +8,8 @@ import org.cobalt.api.event.EventBus
 import org.cobalt.api.util.TickScheduler
 import org.cobalt.api.util.rotation.Rotation
 import org.cobalt.internal.command.MainCommand
-import org.cobalt.internal.feat.rotation.DefaultRotations
-import org.cobalt.internal.feat.rpc.DiscordPresence
+import org.cobalt.internal.feature.rotation.DefaultRotations
+import org.cobalt.internal.feature.rpc.DiscordPresence
 import org.cobalt.internal.helper.Config
 import org.cobalt.internal.loader.AddonLoader
 

@@ -1,12 +1,11 @@
-package org.cobalt.internal.feat.rotation.strategy
+package org.cobalt.internal.feature.rotation.strategy
 
 import net.minecraft.client.network.ClientPlayerEntity
-import org.cobalt.internal.feat.rotation.DefaultRotationConfig
+import org.cobalt.internal.feature.rotation.DefaultRotationConfig
 import org.cobalt.api.util.ChatUtils
-import org.cobalt.internal.feat.rotation.DefaultRotationParameters
-import org.cobalt.internal.feat.rotation.RotationExecutor
-import org.cobalt.internal.feat.rotation.RotationMath
-import org.cobalt.internal.feat.rotation.strategy.RotationStrategy
+import org.cobalt.internal.feature.rotation.DefaultRotationParameters
+import org.cobalt.internal.feature.rotation.RotationExecutor
+import org.cobalt.internal.feature.rotation.RotationMath
 
 internal class OvershootRotationStrategy : RotationStrategy {
   override fun perform(
