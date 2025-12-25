@@ -7,13 +7,15 @@ import org.cobalt.api.command.CommandManager
 import org.cobalt.api.event.EventBus
 import org.cobalt.api.event.annotation.SubscribeEvent
 import org.cobalt.api.event.impl.render.WorldRenderEvent
+import org.cobalt.api.pathfinder.IPathExec
 import org.cobalt.api.util.TickScheduler
 import org.cobalt.api.util.rotation.IRotationExec
 import org.cobalt.internal.command.MainCommand
-import org.cobalt.internal.rotation.RotationExec
-import org.cobalt.internal.rpc.DiscordPresence
 import org.cobalt.internal.helper.Config
 import org.cobalt.internal.loader.AddonLoader
+import org.cobalt.internal.modules.DiscordPresence
+import org.cobalt.internal.pathfinder.PathExec
+import org.cobalt.internal.rotation.RotationExec
 
 object Cobalt : ClientModInitializer {
 
@@ -47,11 +49,24 @@ object Cobalt : ClientModInitializer {
   @JvmStatic
   private var rotationExec: IRotationExec = RotationExec
 
+  @JvmStatic
+  private var pathExec: IPathExec = PathExec
+
   @SubscribeEvent
   fun onWorldRenderLast(event: WorldRenderEvent.Last) {
     mc.player?.let {
       rotationExec.onRotate(it)
     }
+  }
+
+  @JvmStatic
+  fun getPathExec(): IPathExec {
+    return pathExec
+  }
+
+  @JvmStatic
+  fun setRotationExec(pathExec: IPathExec) {
+    this.pathExec = pathExec
   }
 
   @JvmStatic

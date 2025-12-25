@@ -1,4 +1,4 @@
-package org.cobalt.internal.rpc
+package org.cobalt.internal.modules
 
 import meteordevelopment.discordipc.DiscordIPC
 import meteordevelopment.discordipc.RichPresence

@@ -1,8 +1,9 @@
-package org.cobalt.internal.feature.general
+package org.cobalt.internal.modules
 
+import net.minecraft.client.MinecraftClient
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
-import org.cobalt.api.util.ChatUtils.buildGradient
+import org.cobalt.api.util.ChatUtils
 
 object NameProtect {
 
@@ -28,7 +29,7 @@ object NameProtect {
       return Text.literal(getMcIGN())
 
     return if (isGradient) {
-      buildGradient(newName, startGradient, endGradient)
+        ChatUtils.buildGradient(newName, startGradient, endGradient)
     } else {
       Text.literal(newName)
     }
@@ -36,7 +37,7 @@ object NameProtect {
 
   @JvmStatic
   fun getMcIGN(): String {
-    val name = net.minecraft.client.MinecraftClient.getInstance().player?.gameProfile?.name
+    val name = MinecraftClient.getInstance().player?.gameProfile?.name
     return name.toString()
   }
 
