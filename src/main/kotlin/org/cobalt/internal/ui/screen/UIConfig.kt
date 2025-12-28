@@ -1,6 +1,7 @@
 package org.cobalt.internal.ui.screen
 
 import net.minecraft.client.gui.Click
+import net.minecraft.client.input.KeyInput
 import org.cobalt.Cobalt.mc
 import org.cobalt.api.event.EventBus
 import org.cobalt.api.event.annotation.SubscribeEvent
@@ -9,7 +10,8 @@ import org.cobalt.api.util.ui.NVGRenderer
 import org.cobalt.internal.helper.Config
 import org.cobalt.internal.ui.UIScreen
 import org.cobalt.internal.ui.animation.EaseInOutAnimation
-import org.cobalt.internal.ui.panel.panels.UIMainBody
+import org.cobalt.internal.ui.panel.UIPanel
+import org.cobalt.internal.ui.panel.panels.UIModules
 import org.cobalt.internal.ui.panel.panels.UISidebar
 
 object UIConfig : UIScreen() {
@@ -20,7 +22,7 @@ object UIConfig : UIScreen() {
 
   /** UI Panels */
   private val sidebar = UISidebar()
-  private val mainBody = UIMainBody()
+  private var body: UIPanel = UIModules()
 
   init {
     EventBus.register(this)
@@ -55,7 +57,7 @@ object UIConfig : UIScreen() {
       .updateBounds(originX, originY)
       .render()
 
-    mainBody
+    body
       .updateBounds(originX + 80f, originY)
       .render()
 
@@ -63,9 +65,21 @@ object UIConfig : UIScreen() {
   }
 
   override fun mouseClicked(click: Click, doubled: Boolean): Boolean {
-    return mainBody.mouseClicked(click.button()) ||
+    return body.mouseClicked(click.button()) ||
       sidebar.mouseClicked(click.button()) ||
       super.mouseClicked(click, doubled)
+  }
+
+  override fun mouseReleased(click: Click): Boolean {
+    return body.mouseReleased(click.button()) ||
+      sidebar.mouseReleased(click.button()) ||
+      super.mouseReleased(click)
+  }
+
+  override fun keyPressed(input: KeyInput): Boolean {
+    return body.keyPressed(input) ||
+      sidebar.keyPressed(input) ||
+      super.keyPressed(input)
   }
 
   override fun init() {
