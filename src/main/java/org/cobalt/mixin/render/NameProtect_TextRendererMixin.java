@@ -68,6 +68,8 @@ public class NameProtect_TextRendererMixin {
       MutableText replacement = NameProtect.getName();
       return replaceWordWithText(text, NameProtect.getMcIGN(), replacement);
     }
+
+    return text;
   }
 
 }
