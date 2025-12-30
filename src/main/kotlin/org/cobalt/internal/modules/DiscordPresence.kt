@@ -6,6 +6,7 @@ import org.cobalt.Cobalt
 import org.cobalt.api.event.annotation.SubscribeEvent
 import org.cobalt.api.event.impl.client.TickEvent
 
+// TODO: Move to QOL Addon
 object DiscordPresence {
 
   private val rpc: RichPresence = RichPresence()

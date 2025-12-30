@@ -64,8 +64,10 @@ public class NameProtect_TextRendererMixin {
     argsOnly = true
   )
   private OrderedText modifyMinecraftName(OrderedText text) {
-    MutableText replacement = NameProtect.getName();
-    return replaceWordWithText(text, NameProtect.getMcIGN(), replacement);
+    if (NameProtect.INSTANCE.isEnabled()) {
+      MutableText replacement = NameProtect.getName();
+      return replaceWordWithText(text, NameProtect.getMcIGN(), replacement);
+    }
   }
 
 }

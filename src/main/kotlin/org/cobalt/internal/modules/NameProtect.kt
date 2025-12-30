@@ -5,9 +5,10 @@ import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import org.cobalt.api.util.ChatUtils
 
+// TODO: Move to QOL Addon
 object NameProtect {
 
-  var isEnabled = false // TODO: CHANGE WHEN I CAN FIND OUT HOW THE FUCK GUI WORKS :sob:
+  var isEnabled = false
   var newName = "Cobalt User"
   var isGradient = true
   var startGradient = 0xFF4A90E2.toInt()
@@ -25,9 +26,6 @@ object NameProtect {
 
   @JvmStatic
   fun getName(): MutableText {
-    if (!isEnabled)
-      return Text.literal(getMcIGN())
-
     return if (isGradient) {
         ChatUtils.buildGradient(newName, startGradient, endGradient)
     } else {
