@@ -29,38 +29,28 @@ object Cobalt : ClientModInitializer {
 
   @Suppress("UNUSED_EXPRESSION")
   override fun onInitializeClient() {
-    AddonLoader.getAddons()
-      .map { it.second }
-      .forEach {
-        it.onLoad()
-        ModuleManager.addModules(it.getModules())
-      }
+    AddonLoader.getAddons().map { it.second }.forEach {
+      it.onLoad()
+      ModuleManager.addModules(it.getModules())
+    }
 
     CommandManager.register(MainCommand)
     CommandManager.dispatchAll()
 
-    listOf(
-      TickScheduler,
-      DiscordPresence,
-      MainCommand
-    ).forEach { EventBus.register(it) }
+    listOf(TickScheduler, DiscordPresence, MainCommand).forEach { EventBus.register(it) }
 
     Config.loadModulesConfig()
     EventBus.register(this)
     println("Cobalt Mod Initialized")
   }
 
-  @JvmStatic
-  private var rotationExec: IRotationExec = RotationExec
+  @JvmStatic private var rotationExec: IRotationExec = RotationExec
 
-  @JvmStatic
-  private var pathExec: IPathExec = PathExec
+  @JvmStatic private var pathExec: IPathExec = PathExec
 
-  @JvmStatic
-  fun getRotationExec() = rotationExec
+  @JvmStatic fun getRotationExec() = rotationExec
 
-  @JvmStatic
-  fun getPathExec() = pathExec
+  @JvmStatic fun getPathExec() = pathExec
 
   @JvmStatic
   fun setRotationExec(pathExec: IPathExec) {
@@ -74,20 +64,13 @@ object Cobalt : ClientModInitializer {
 
   @SubscribeEvent
   fun onTick(event: TickEvent.End) {
-    mc.player?.let {
-      pathExec.onTick(it)
-    }
+    mc.player?.let { pathExec.onTick(it) }
   }
 
   @SubscribeEvent
   fun onWorldRenderLast(event: WorldRenderEvent.Last) {
-    mc.player?.let {
-      rotationExec.onRotate(it)
-    }
+    mc.player?.let { rotationExec.onRotate(it) }
 
-    mc.player?.let {
-      pathExec.onWorldRenderLast(it)
-    }
+    mc.player?.let { pathExec.onWorldRenderLast(event.context, it) }
   }
-
 }
