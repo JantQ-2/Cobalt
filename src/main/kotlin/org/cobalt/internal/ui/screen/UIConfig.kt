@@ -9,7 +9,7 @@ import org.cobalt.api.event.impl.render.NvgEvent
 import org.cobalt.api.util.ui.NVGRenderer
 import org.cobalt.internal.helper.Config
 import org.cobalt.internal.ui.UIScreen
-import org.cobalt.internal.ui.animation.EaseInOutAnimation
+import org.cobalt.internal.ui.animation.BounceAnimation
 import org.cobalt.internal.ui.panel.UIPanel
 import org.cobalt.internal.ui.panel.panels.UIAddonList
 import org.cobalt.internal.ui.panel.panels.UISidebar
@@ -17,7 +17,7 @@ import org.cobalt.internal.ui.panel.panels.UISidebar
 internal object UIConfig : UIScreen() {
 
   /** Needed for opening animation */
-  private val openAnim = EaseInOutAnimation(400)
+  private val openAnim = BounceAnimation(400)
   private var wasClosed = true
 
   /** UI Panels */

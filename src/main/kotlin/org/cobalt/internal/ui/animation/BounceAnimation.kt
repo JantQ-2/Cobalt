@@ -2,7 +2,7 @@ package org.cobalt.internal.ui.animation
 
 import kotlin.math.pow
 
-internal class EaseInOutAnimation(duration: Long) : Animation<Float>(duration) {
+internal class BounceAnimation(duration: Long) : Animation<Float>(duration) {
 
   override fun get(start: Float, end: Float, reverse: Boolean): Float {
     if (!isAnimating()) return if (reverse) start else end
@@ -13,14 +13,14 @@ internal class EaseInOutAnimation(duration: Long) : Animation<Float>(duration) {
     val x = getPercent() / 100f
 
     return when {
-      x < 0.7f -> {
-        val t = x / 0.7f
+      x < 0.3f -> {
+        val t = x / 0.3f
         val easeOut = 1f - (1f - t).pow(3)
         easeOut * 1.05f
       }
 
       else -> {
-        val t = (x - 0.7f) / 0.3f
+        val t = (x - 0.3f) / 0.7f
         val easeOut = 1f - (1f - t).pow(2)
         1.05f - (0.05f * easeOut)
       }

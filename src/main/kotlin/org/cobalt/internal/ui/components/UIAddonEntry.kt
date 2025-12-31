@@ -5,10 +5,13 @@ import org.cobalt.api.addon.Addon
 import org.cobalt.api.util.ui.NVGRenderer
 import org.cobalt.internal.loader.AddonLoader
 import org.cobalt.internal.ui.UIComponent
+import org.cobalt.internal.ui.panel.panels.UIModuleList
+import org.cobalt.internal.ui.screen.UIConfig
+import org.cobalt.internal.ui.util.isHoveringOver
 
 internal class UIAddonEntry(
-  val metadata: AddonLoader.AddonMetadata,
-  val addon: Addon,
+  private val metadata: AddonLoader.AddonMetadata,
+  private val addon: Addon,
 ) : UIComponent(
   x = 0F,
   y = 0F,
@@ -51,6 +54,11 @@ internal class UIAddonEntry(
   }
 
   override fun mouseClicked(button: Int): Boolean {
+    if (isHoveringOver(x, y, width, height) && button == 1) {
+      UIConfig.swapBodyPanel(UIModuleList(metadata, addon))
+      return true
+    }
+
     return false
   }
 
