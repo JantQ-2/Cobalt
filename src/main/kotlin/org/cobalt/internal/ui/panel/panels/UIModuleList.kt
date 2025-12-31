@@ -3,15 +3,14 @@ package org.cobalt.internal.ui.panel.panels
 import java.awt.Color
 import org.cobalt.api.addon.Addon
 import org.cobalt.api.util.ui.NVGRenderer
-import org.cobalt.api.util.ui.helper.Gradient
 import org.cobalt.internal.loader.AddonLoader
 import org.cobalt.internal.ui.UIComponent
 import org.cobalt.internal.ui.components.UIBackButton
 import org.cobalt.internal.ui.components.UIModule
 import org.cobalt.internal.ui.components.UITopbar
 import org.cobalt.internal.ui.panel.UIPanel
-import org.cobalt.internal.ui.util.UIGridLayout
-import org.cobalt.internal.ui.util.UIScrollHandler
+import org.cobalt.internal.ui.util.GridLayout
+import org.cobalt.internal.ui.util.ScrollHandler
 import org.cobalt.internal.ui.util.isHoveringOver
 
 internal class UIModuleList(
@@ -37,14 +36,14 @@ internal class UIModuleList(
       }
     }
 
-  private val modulesLayout = UIGridLayout(
+  private val modulesLayout = GridLayout(
     columns = 1,
     itemWidth = 182.5F,
     itemHeight = 40F,
     gap = 5F
   )
 
-  private val modulesScroll = UIScrollHandler()
+  private val modulesScroll = ScrollHandler()
   private var module = modules.first()
 
   init {

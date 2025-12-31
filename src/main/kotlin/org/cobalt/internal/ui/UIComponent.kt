@@ -5,8 +5,8 @@ import net.minecraft.client.input.KeyInput
 internal abstract class UIComponent(
   var x: Float,
   var y: Float,
-  val width: Float,
-  val height: Float
+  var width: Float,
+  var height: Float,
 ) {
 
   abstract fun render()

@@ -3,7 +3,7 @@ package org.cobalt.internal.ui.util
 import kotlin.math.ceil
 import org.cobalt.internal.ui.UIComponent
 
-internal class UIGridLayout(
+internal class GridLayout(
   private val columns: Int,
   private val itemWidth: Float,
   private val itemHeight: Float,

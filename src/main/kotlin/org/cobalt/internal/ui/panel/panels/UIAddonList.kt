@@ -7,9 +7,8 @@ import org.cobalt.internal.ui.UIComponent
 import org.cobalt.internal.ui.components.UIAddonEntry
 import org.cobalt.internal.ui.components.UITopbar
 import org.cobalt.internal.ui.panel.UIPanel
-import org.cobalt.internal.ui.screen.UIConfig
-import org.cobalt.internal.ui.util.UIGridLayout
-import org.cobalt.internal.ui.util.UIScrollHandler
+import org.cobalt.internal.ui.util.GridLayout
+import org.cobalt.internal.ui.util.ScrollHandler
 import org.cobalt.internal.ui.util.isHoveringOver
 
 internal class UIAddonList : UIPanel(
@@ -22,14 +21,14 @@ internal class UIAddonList : UIPanel(
   private val topBar = UITopbar("Addons")
   private val entries = AddonLoader.getAddons().map { UIAddonEntry(it.first, it.second) }
 
-  private val gridLayout = UIGridLayout(
+  private val gridLayout = GridLayout(
     columns = 3,
     itemWidth = 270F,
     itemHeight = 70F,
     gap = 20F
   )
 
-  private val scrollHandler = UIScrollHandler()
+  private val scrollHandler = ScrollHandler()
 
   init {
     components.addAll(entries)
