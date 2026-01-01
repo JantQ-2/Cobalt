@@ -15,11 +15,12 @@
 
 </div>
 
+> [!WARNING]
+> The project includes early implementations of a UI system, a pathfinder, and a path executor. These components are **work-in-progress** and not yet feature-complete, but they serve as a foundation for future development and community contributions.
+
 ## About The Project
 
 Cobalt is an open-source Minecraft Fabric project focused on providing a modular scripting and automation framework with an emphasis on extensibility. It is designed to be easy to experiment with, extend through addons, and adapt to different use cases without locking users into a rigid structure.
-
-The project includes early implementations of a UI system, a pathfinder, and a path executor. These components are **work-in-progress** and not yet feature-complete, but they serve as a foundation for future development and community contributions.
 
 Cobalt was open sourced to encourage learning, collaboration, and iteration. Whether you’re interested in exploring the codebase, building addons, or improving unfinished systems, contributions and experimentation are welcome.
 
