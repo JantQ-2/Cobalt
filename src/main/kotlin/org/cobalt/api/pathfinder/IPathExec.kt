@@ -5,6 +5,6 @@ import org.cobalt.api.event.impl.render.WorldRenderContext
 
 interface IPathExec {
 
-  fun onTick(it: ClientPlayerEntity) {}
-  fun onWorldRenderLast(it: WorldRenderContext, player: ClientPlayerEntity) {}
+  fun onTick(player: ClientPlayerEntity) {}
+  fun onWorldRenderLast(ctx: WorldRenderContext, player: ClientPlayerEntity) {}
 }

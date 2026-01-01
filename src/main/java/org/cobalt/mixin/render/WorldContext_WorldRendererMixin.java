@@ -37,8 +37,10 @@ public class WorldContext_WorldRendererMixin {
     new WorldRenderEvent.Start(ctx).post();
   }
 
+
   @Inject(method = "method_62214", at = @At("RETURN"))
   private void postRender(GpuBufferSlice gpuBufferSlice, WorldRenderState worldRenderState, Profiler profiler, Matrix4f matrix4f, Handle handle, Handle handle2, boolean bl, Frustum frustum, Handle handle3, Handle handle4, CallbackInfo ci) {
+    ctx.setFrustum(frustum);
     new WorldRenderEvent.Last(ctx).post();
   }
 

@@ -29,7 +29,6 @@ val currentVersionDir = docVersionsDir.resolve(currentVersion)
 repositories {
   mavenCentral()
   maven("https://jitpack.io")
-  maven("https://maven.meteordev.org/releases")
   maven("https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1")
   maven("https://api.modrinth.com/maven")
   maven("https://maven.quiteboring.dev")
@@ -42,7 +41,6 @@ dependencies {
   modImplementation("net.fabricmc:fabric-loader:${property("loader_version")}")
   modImplementation("net.fabricmc:fabric-language-kotlin:${property("fabric_kotlin_version")}")
   modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_version")}")
-  modImplementation("dev.quiteboring:swift:1.0.0")
 
   modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:1.2.1")
 
