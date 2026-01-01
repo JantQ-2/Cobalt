@@ -23,13 +23,16 @@ internal class UISidebar : UIPanel(
 //    println("Opening HUD Editor")
 //  }
 
-  private val userIcon = try {
-    NVGRenderer.createImage(
-      "https://mc-heads.net/avatar/${MinecraftClient.getInstance().session.uuidOrNull}/100/face.png"
-    )
-  } catch (_: Exception) {
-    NVGRenderer.createImage("/assets/cobalt/steve.png")
-  }
+  private val steveIcon = NVGRenderer.createImage("/assets/cobalt/steve.png")
+  private val userIcon = MinecraftClient.getInstance().session.uuidOrNull?.let {
+    try {
+      NVGRenderer.createImage(
+        "https://mc-heads.net/avatar/${MinecraftClient.getInstance().session.uuidOrNull}/100/face.png"
+      )
+    } catch (_: Exception) {
+      steveIcon
+    }
+  } ?: steveIcon
 
   init {
     components.addAll(

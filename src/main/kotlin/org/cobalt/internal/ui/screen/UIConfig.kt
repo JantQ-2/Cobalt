@@ -1,6 +1,7 @@
 package org.cobalt.internal.ui.screen
 
 import net.minecraft.client.gui.Click
+import net.minecraft.client.input.CharInput
 import net.minecraft.client.input.KeyInput
 import org.cobalt.Cobalt.mc
 import org.cobalt.api.event.EventBus
@@ -72,13 +73,21 @@ internal object UIConfig : UIScreen() {
 
   override fun mouseReleased(click: Click): Boolean {
     return body.mouseReleased(click.button()) ||
-      sidebar.mouseReleased(click.button()) ||
       super.mouseReleased(click)
+  }
+
+  override fun mouseDragged(click: Click, offsetX: Double, offsetY: Double): Boolean {
+    return body.mouseDragged(click.button(), offsetX, offsetY) ||
+      super.mouseDragged(click, offsetX, offsetY)
+  }
+
+  override fun charTyped(input: CharInput): Boolean {
+    return body.charTyped(input) ||
+      super.charTyped(input)
   }
 
   override fun keyPressed(input: KeyInput): Boolean {
     return body.keyPressed(input) ||
-      sidebar.keyPressed(input) ||
       super.keyPressed(input)
   }
 
@@ -88,7 +97,8 @@ internal object UIConfig : UIScreen() {
     horizontalAmount: Double,
     verticalAmount: Double
   ): Boolean {
-    return body.mouseScrolled(horizontalAmount, verticalAmount)|| super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)
+    return body.mouseScrolled(horizontalAmount, verticalAmount)||
+      super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)
   }
 
   override fun init() {

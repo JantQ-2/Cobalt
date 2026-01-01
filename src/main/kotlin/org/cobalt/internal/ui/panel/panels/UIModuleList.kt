@@ -85,6 +85,7 @@ internal class UIModuleList(
   )
 
   init {
+    components.addAll(settings)
     components.addAll(modules)
     components.add(backButton)
     components.add(topBar)
@@ -164,6 +165,8 @@ internal class UIModuleList(
     }
 
     this.module = module
+    components.removeAll(settings)
+
     this.settings = module.getSettings()
       .map {
         when (it) {
@@ -175,6 +178,8 @@ internal class UIModuleList(
           is SliderSetting -> UISliderSetting(it)
           else -> UITextSetting(it as TextSetting)
         }
+      }.also {
+        components.addAll(it)
       }
   }
 
