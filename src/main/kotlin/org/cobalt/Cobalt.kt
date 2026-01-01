@@ -46,14 +46,14 @@ object Cobalt : ClientModInitializer {
 
   @JvmStatic private var rotationExec: IRotationExec = RotationExec
 
-  @JvmStatic private var pathExec: IPathExec = PathExec
+  @JvmStatic private var pathExec: IPathExec? = null
 
   @JvmStatic fun getRotationExec() = rotationExec
 
   @JvmStatic fun getPathExec() = pathExec
 
   @JvmStatic
-  fun setRotationExec(pathExec: IPathExec) {
+  fun setPathExec(pathExec: IPathExec) {
     this.pathExec = pathExec
   }
 
@@ -64,13 +64,12 @@ object Cobalt : ClientModInitializer {
 
   @SubscribeEvent
   fun onTick(event: TickEvent.End) {
-    mc.player?.let { pathExec.onTick(it) }
+    mc.player?.let { pathExec?.onTick(it) }
   }
 
   @SubscribeEvent
   fun onWorldRenderLast(event: WorldRenderEvent.Last) {
     mc.player?.let { rotationExec.onRotate(it) }
-
-    mc.player?.let { pathExec.onWorldRenderLast(event.context, it) }
+    mc.player?.let { pathExec?.onWorldRenderLast(event.context, it) }
   }
 }
