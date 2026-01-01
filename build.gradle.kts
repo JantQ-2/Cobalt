@@ -29,6 +29,7 @@ val currentVersionDir = docVersionsDir.resolve(currentVersion)
 repositories {
   mavenCentral()
   maven("https://jitpack.io")
+  maven("https://maven.meteordev.org/releases")
   maven("https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1")
   maven("https://api.modrinth.com/maven")
   maven("https://maven.quiteboring.dev")
