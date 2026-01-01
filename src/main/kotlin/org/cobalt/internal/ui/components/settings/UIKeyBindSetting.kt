@@ -5,6 +5,7 @@ import org.cobalt.api.module.setting.impl.KeyBindSetting
 import org.cobalt.api.util.ui.NVGRenderer
 import org.cobalt.internal.ui.UIComponent
 
+// TODO: Need to complete
 internal class UIKeyBindSetting(private val setting: KeyBindSetting) : UIComponent(
   x = 0F,
   y = 0F,

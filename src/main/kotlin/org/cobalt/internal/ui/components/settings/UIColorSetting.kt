@@ -5,6 +5,7 @@ import org.cobalt.api.module.setting.impl.ColorSetting
 import org.cobalt.api.util.ui.NVGRenderer
 import org.cobalt.internal.ui.UIComponent
 
+// TODO: Need to complete
 internal class UIColorSetting(private val setting: ColorSetting) : UIComponent(
   x = 0F,
   y = 0F,

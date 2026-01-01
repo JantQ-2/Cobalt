@@ -5,6 +5,7 @@ import org.cobalt.api.module.setting.impl.TextSetting
 import org.cobalt.api.util.ui.NVGRenderer
 import org.cobalt.internal.ui.UIComponent
 
+// TODO: Need to complete
 internal class UITextSetting(private val setting: TextSetting) : UIComponent(
   x = 0F,
   y = 0F,

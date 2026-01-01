@@ -5,6 +5,7 @@ import org.cobalt.api.module.setting.impl.RangeSetting
 import org.cobalt.api.util.ui.NVGRenderer
 import org.cobalt.internal.ui.UIComponent
 
+// TODO: Need to complete
 internal class UIRangeSetting(private val setting: RangeSetting) : UIComponent(
   x = 0F,
   y = 0F,

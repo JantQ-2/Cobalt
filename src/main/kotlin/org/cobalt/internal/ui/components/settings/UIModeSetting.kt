@@ -5,6 +5,7 @@ import org.cobalt.api.module.setting.impl.ModeSetting
 import org.cobalt.api.util.ui.NVGRenderer
 import org.cobalt.internal.ui.UIComponent
 
+// TODO: Need to complete
 internal class UIModeSetting(private val setting: ModeSetting) : UIComponent(
   x = 0F,
   y = 0F,

@@ -5,6 +5,7 @@ import org.cobalt.api.module.setting.impl.SliderSetting
 import org.cobalt.api.util.ui.NVGRenderer
 import org.cobalt.internal.ui.UIComponent
 
+// TODO: Need to complete
 internal class UISliderSetting(private val setting: SliderSetting) : UIComponent(
   x = 0F,
   y = 0F,
