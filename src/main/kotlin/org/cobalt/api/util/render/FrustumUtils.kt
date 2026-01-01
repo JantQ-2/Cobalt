@@ -1,8 +1,8 @@
 package org.cobalt.api.util.render
 
-import dev.quiteboring.swift.mixins.FrustumInvoker
 import net.minecraft.client.render.Frustum
 import net.minecraft.util.math.Box
+import org.cobalt.mixin.render.Frustum_FrustumInvoker
 import org.joml.FrustumIntersection
 
 object FrustumUtils {
@@ -20,7 +20,7 @@ object FrustumUtils {
     maxY: Double,
     maxZ: Double,
   ): Boolean {
-    val result = (frustum as FrustumInvoker).invokeIntersectAab(minX, minY, minZ, maxX, maxY, maxZ)
+    val result = (frustum as Frustum_FrustumInvoker).invokeIntersectAab(minX, minY, minZ, maxX, maxY, maxZ)
     return result == FrustumIntersection.INSIDE || result == FrustumIntersection.INTERSECT
   }
 
