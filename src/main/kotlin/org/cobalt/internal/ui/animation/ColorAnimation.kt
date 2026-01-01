@@ -19,4 +19,5 @@ internal class ColorAnimation(duration: Long) {
       anim.get(start.blue.toFloat(), end.blue.toFloat(), reverse) / 255,
       anim.get(start.alpha.toFloat(), end.alpha.toFloat(), reverse) / 255,
     )
+
 }

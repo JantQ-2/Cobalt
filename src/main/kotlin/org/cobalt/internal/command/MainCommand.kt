@@ -3,29 +3,32 @@ package org.cobalt.internal.command
 import org.cobalt.api.command.Command
 import org.cobalt.api.command.annotation.DefaultHandler
 import org.cobalt.api.command.annotation.SubCommand
-import org.cobalt.api.util.ChatUtils
-import org.cobalt.internal.feat.general.NameProtect
-import org.cobalt.internal.ui.screen.UIScreen
+import org.cobalt.internal.rotation.EasingType
+import org.cobalt.internal.rotation.RotationExec
+import org.cobalt.internal.rotation.strategy.TimedEaseStrategy
+import org.cobalt.internal.ui.screen.UIConfig
 
-object MainCommand : Command(
+internal object MainCommand : Command(
   name = "cobalt",
   aliases = arrayOf("cb")
 ) {
 
   @DefaultHandler
   fun main() {
-    UIScreen.openUI()
+    UIConfig.openUI()
   }
 
   @SubCommand
-  fun dev(subCmd: String) {
-    when (subCmd) {
-      "tnp" -> NameProtect.isEnabled = !NameProtect.isEnabled
-      "tchat" -> {
-        ChatUtils.sendMessage("This is a test message!")
-        ChatUtils.sendDebug("This is a test debug message!")
-      }
-    }
+  fun rotate(yaw: Double, pitch: Double, duration: Int) {
+    RotationExec.rotateTo(
+      yaw.toFloat(),
+      pitch.toFloat(),
+      TimedEaseStrategy(
+        yawEaseType = EasingType.EASE_OUT_EXPO,
+        pitchEaseType = EasingType.EASE_OUT_EXPO,
+        duration = duration.toLong()
+      )
+    )
   }
 
 }

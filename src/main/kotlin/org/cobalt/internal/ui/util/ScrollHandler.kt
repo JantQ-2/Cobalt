@@ -21,6 +21,7 @@ internal class ScrollHandler(
 
   fun getOffset(): Float = scroll
   fun isScrollable(): Boolean = maxScroll > 0f
+  fun getMaxScroll(): Float = maxScroll
 
   fun reset() {
     scroll = 0f

@@ -29,8 +29,6 @@ internal object Config {
         it.name == moduleName
       } ?: continue
 
-      module.isEnabled = moduleObj.get("enabled").asBoolean
-
       val settingsObj = moduleObj.getAsJsonObject("settings")
       if (settingsObj != null) {
         for ((key, value) in settingsObj.entrySet()) {
@@ -51,7 +49,6 @@ internal object Config {
       val moduleObj = JsonObject()
 
       moduleObj.add("name", JsonPrimitive(module.name))
-      moduleObj.add("enabled", JsonPrimitive(module.isEnabled))
       moduleObj.add("settings", JsonObject().apply {
         module.getSettings().forEach {
           add(it.name, it.write())

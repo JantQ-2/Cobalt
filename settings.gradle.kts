@@ -17,4 +17,4 @@ pluginManagement {
 
 }
 
-rootProject.name = "Core"
+rootProject.name = "Cobalt"

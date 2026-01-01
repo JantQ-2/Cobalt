@@ -2,6 +2,7 @@ package org.cobalt.api.event.impl.client
 
 import org.cobalt.api.event.Event
 
+@Suppress("UNUSED_PARAMETER")
 abstract class MouseEvent(val button: Int, val action: Int) : Event(true) {
 
   class LeftClick(action: Int) : MouseEvent(0, action)

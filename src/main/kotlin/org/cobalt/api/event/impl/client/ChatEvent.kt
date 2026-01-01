@@ -5,6 +5,7 @@ import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket
 import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket
 import org.cobalt.api.event.Event
 
+@Suppress("UNUSED_PARAMETER")
 abstract class ChatEvent(val packet: Packet<*>) : Event(true) {
 
   class Receive(packet: Packet<*>) : ChatEvent(packet) {

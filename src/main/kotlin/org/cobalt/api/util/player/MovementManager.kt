@@ -2,9 +2,12 @@ package org.cobalt.api.util.player
 
 object MovementManager {
 
+  /**
+   * When false, player can control the camera, but if true, the player can't control the camera.
+   */
   @JvmField
   @Volatile
-  var isLookLocked = false // False: Player can control camera. True: Player can't control the camera
+  var isLookLocked = false
 
   /**
   * Updates the `isLookLocked` state.

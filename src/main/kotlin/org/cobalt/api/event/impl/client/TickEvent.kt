@@ -4,7 +4,7 @@ import org.cobalt.api.event.Event
 
 abstract class TickEvent : Event(false) {
 
-  class Start(): TickEvent()
-  class End(): TickEvent()
+  class Start : TickEvent()
+  class End : TickEvent()
 
 }

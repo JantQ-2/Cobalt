@@ -4,6 +4,7 @@ abstract class Event(private val cancellable: Boolean = false) {
 
   private var value: Boolean = false
 
+  @Suppress("UNUSED")
   fun setCancelled(value: Boolean) {
     if (cancellable) {
       this.value = value

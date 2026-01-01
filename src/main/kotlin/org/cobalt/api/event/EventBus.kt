@@ -11,7 +11,6 @@ object EventBus {
 
   private val listeners = ConcurrentHashMap<Class<*>, MutableList<ListenerData>>()
   private val registered = mutableSetOf<Any>()
- // var registeredViaFun = mutableSetOf<String>()
   private val dynamicRunnables = ConcurrentHashMap<Class<out Event>, MutableList<Runnable>>()
 
   fun register(obj: Any) {
@@ -37,6 +36,7 @@ object EventBus {
     registered.add(obj)
   }
 
+  @Suppress("UNUSED")
   fun unregister(obj: Any) {
     if (obj !in registered) return
     listeners.values.forEach { it.removeIf { data -> data.instance === obj } }
@@ -67,7 +67,7 @@ object EventBus {
    * @param packageStr The package to scan for @SubscribeEvent annotated functions.
    * @param excludeFiles A set of classes to exclude from registration.
    *
-   * @author oblongboot (i dont care about credit, nathan included the comment to i re-added it)
+   * @author oblongboot
    */
   fun discoverAndRegister(packageStr: String, excludeFiles: Set<Class<*>> = emptySet()) {
     val reflections = Reflections(
@@ -106,13 +106,14 @@ object EventBus {
   /**
    * Registers a function to be called when an event is posted, alternative to using the @SubscribeEvent annotation.
    *
-   * @param event The event to listen for.
+   * @param eventClass The event to listen for.
    * @param runnable The function to call when the event is posted.
+   *
+   * @author oblongboot
    */
   fun registerEvent(eventClass: Class<out Event>, runnable: Runnable) {
       dynamicRunnables.computeIfAbsent(eventClass) { mutableListOf() }.add(runnable)
   }
-
 
   fun handleDynamic(event: Event) {
       dynamicRunnables

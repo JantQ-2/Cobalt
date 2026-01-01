@@ -4,19 +4,12 @@ object ModuleManager {
 
   private val moduleList = mutableListOf<Module>()
 
-  fun addModules(vararg modules: Module) {
-    moduleList.addAll(listOf(*modules))
-  }
-
   fun getModules(): List<Module> {
     return moduleList
   }
 
-  fun getCategories(): List<String> {
-    return moduleList
-      .map { it.category }
-      .distinct()
-      .sortedBy { it }
+  internal fun addModules(modules: List<Module>) {
+    moduleList.addAll(modules)
   }
 
 }

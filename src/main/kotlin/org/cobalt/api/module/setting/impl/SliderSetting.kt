@@ -7,11 +7,10 @@ import org.cobalt.api.module.setting.Setting
 class SliderSetting(
   name: String,
   description: String,
-  subcategory: String,
   defaultValue: Double,
   val min: Double,
   val max: Double,
-) : Setting<Double>(name, description, subcategory, defaultValue) {
+) : Setting<Double>(name, description, defaultValue) {
 
   override fun read(element: JsonElement) {
     this.value = element.asDouble.coerceIn(min, max)
