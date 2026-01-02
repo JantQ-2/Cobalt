@@ -66,7 +66,7 @@ internal class UIColorSetting(private val setting: ColorSetting) : UIComponent(
 
     renderColorPalette(paletteX, paletteY, pickerWidth - 24F, paletteHeight)
 
-    var currentY = paletteY + paletteHeight + 12F
+    val currentY = paletteY + paletteHeight + 12F
 
     val alpha = (setting.value shr 24) and 0xFF
     val alphaPercent = (alpha / 255F * 100F).toInt()
@@ -87,6 +87,7 @@ internal class UIColorSetting(private val setting: ColorSetting) : UIComponent(
     )
   }
 
+  @Suppress("SameParameterValue")
   private fun renderColorPalette(x: Float, y: Float, width: Float, height: Float) {
     val hueSteps = 18
     val saturationSteps = 12
@@ -138,7 +139,7 @@ internal class UIColorSetting(private val setting: ColorSetting) : UIComponent(
 
         val alphaSliderY = bounds.paletteY + paletteHeight + 28F
         if (isHoveringOver(bounds.paletteX, alphaSliderY, pickerWidth - 24F, sliderHeight)) {
-          return updateAlphaFromSlider(bounds.paletteX, alphaSliderY, pickerWidth - 24F)
+          return updateAlphaFromSlider(bounds.paletteX, pickerWidth - 24F)
         }
 
         if (!isHoveringOver(bounds.pickerX, bounds.pickerY, pickerWidth, bounds.pickerHeight)) {
@@ -164,13 +165,14 @@ internal class UIColorSetting(private val setting: ColorSetting) : UIComponent(
 
       val alphaSliderY = bounds.paletteY + paletteHeight + 28F
       if (isHoveringOver(bounds.paletteX, alphaSliderY, pickerWidth - 24F, sliderHeight)) {
-        return updateAlphaFromSlider(bounds.paletteX, alphaSliderY, pickerWidth - 24F)
+        return updateAlphaFromSlider(bounds.paletteX, pickerWidth - 24F)
       }
     }
 
     return false
   }
 
+  @Suppress("SameParameterValue")
   private fun updateColorFromPalette(paletteX: Float, paletteY: Float, paletteWidth: Float, paletteHeight: Float): Boolean {
     val relX = (mouseX.toFloat() - paletteX).coerceIn(0F, paletteWidth)
     val relY = (mouseY.toFloat() - paletteY).coerceIn(0F, paletteHeight)
@@ -185,7 +187,8 @@ internal class UIColorSetting(private val setting: ColorSetting) : UIComponent(
     return true
   }
 
-  private fun updateAlphaFromSlider(sliderX: Float, sliderY: Float, sliderWidth: Float): Boolean {
+  @Suppress("SameParameterValue")
+  private fun updateAlphaFromSlider(sliderX: Float, sliderWidth: Float): Boolean {
     val relX = (mouseX.toFloat() - sliderX).coerceIn(0F, sliderWidth)
     val alpha = (relX / sliderWidth * 255F).toInt()
 

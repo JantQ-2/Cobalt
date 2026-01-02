@@ -19,7 +19,6 @@ object AddonLoader {
   private val addons = mutableListOf<Pair<AddonMetadata, Addon>>()
   private val gson = Gson()
 
-
   fun findAddons() {
     if (FabricLauncherBase.getLauncher().isDevelopment) {
       for (entry in FabricLoader.getInstance().getEntrypointContainers("cobalt", Addon::class.java)) {

@@ -25,4 +25,5 @@ internal class UITextTooltip(
       Color(230, 230, 230).rgb
     )
   }
+
 }

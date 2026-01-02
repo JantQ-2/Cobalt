@@ -46,6 +46,7 @@ object DiscordPresence {
     DiscordIPC.setActivity(rpc)
   }
 
+  @Suppress("unused")
   @SubscribeEvent
   fun onTick(ignored: TickEvent.End) {
     if (System.currentTimeMillis() - lastUpdate < 1_800_000)

@@ -6,4 +6,5 @@ internal class SlideAnimation(duration: Long) : Animation<Float>(duration) {
     val percent = getPercent() / 100f
     return start + (end - start) * percent
   }
+
 }

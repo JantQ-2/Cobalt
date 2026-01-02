@@ -19,6 +19,7 @@ internal class UIAddonEntry(
   width = 270F,
   height = 70F,
 ) {
+
   val addonIcon = AddonLoader.getAddonIcon(metadata.id) ?: boxIcon
 
   override fun render() {
@@ -66,7 +67,6 @@ internal class UIAddonEntry(
   }
 
   companion object {
-
     private val boxIcon = NVGRenderer.createImage("/assets/cobalt/icons/box.svg")
   }
 

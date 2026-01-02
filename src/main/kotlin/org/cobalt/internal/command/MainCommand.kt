@@ -34,7 +34,7 @@ internal object MainCommand : Command(
 
   @SubCommand
   fun notification(title: String, description: String) {
-    NotificationManager.addNotification(title, description)
+    NotificationManager.sendNotification(title, description)
   }
 
 }

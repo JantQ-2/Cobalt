@@ -1,15 +1,14 @@
 package org.cobalt.internal.ui.components
 
 import java.awt.Color
-import kotlinx.coroutines.selects.select
 import org.cobalt.api.module.Module
 import org.cobalt.api.module.setting.Setting
 import org.cobalt.api.util.ui.NVGRenderer
 import org.cobalt.internal.ui.UIComponent
-import org.cobalt.internal.ui.panel.panels.UIModuleList
-import org.cobalt.internal.ui.util.isHoveringOver
 import org.cobalt.internal.ui.animation.ColorAnimation
 import org.cobalt.internal.ui.animation.EaseOutAnimation
+import org.cobalt.internal.ui.panel.panels.UIModuleList
+import org.cobalt.internal.ui.util.isHoveringOver
 
 internal class UIModule(
   private val module: Module,

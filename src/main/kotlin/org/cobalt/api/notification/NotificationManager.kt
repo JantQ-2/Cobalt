@@ -9,20 +9,20 @@ import org.cobalt.internal.ui.notification.UINotification
 object NotificationManager : NotificationAPI {
 
   private val notifications = mutableListOf<UINotification>()
-  private val maxNotifications = 5
-  private val gap = 10F
+  private const val MAX_NOTIFICATIONS = 5
+  private const val GAP = 10F
 
-  override fun addNotification(title: String, description: String, duration: Long) {
-    if (notifications.size >= maxNotifications) {
+  override fun sendNotification(title: String, description: String, duration: Long) {
+    if (notifications.size >= MAX_NOTIFICATIONS) {
       notifications.removeAt(0)
     }
+
     notifications.add(UINotification(title, description, duration))
   }
 
   @Suppress("unused")
   @SubscribeEvent
   fun onRender(event: NvgEvent) {
-
     val window = mc.window
     val screenWidth = window.width.toFloat()
     val screenHeight = window.height.toFloat()
@@ -40,7 +40,7 @@ object NotificationManager : NotificationAPI {
           if (elapsed > notification.getDuration()) {
             notification.startClosing()
           }
-          val yOffset = index * (notification.getNotificationHeight() + gap)
+          val yOffset = index * (notification.getNotificationHeight() + GAP)
           val x = screenWidth - 350F - 15F
           val y = screenHeight - notification.getNotificationHeight() - 15F - yOffset
           notification.x = x

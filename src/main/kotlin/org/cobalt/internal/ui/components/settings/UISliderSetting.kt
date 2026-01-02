@@ -1,7 +1,6 @@
 package org.cobalt.internal.ui.components.settings
 
 import java.awt.Color
-import kotlin.math.roundToInt
 import org.cobalt.api.module.setting.impl.SliderSetting
 import org.cobalt.api.util.ui.NVGRenderer
 import org.cobalt.internal.ui.UIComponent

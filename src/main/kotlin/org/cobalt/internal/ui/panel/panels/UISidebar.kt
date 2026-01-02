@@ -1,8 +1,6 @@
 package org.cobalt.internal.ui.panel.panels
 
 import java.awt.Color
-import kotlin.random.Random
-import kotlin.random.nextInt
 import net.minecraft.client.MinecraftClient
 import org.cobalt.api.util.ui.NVGRenderer
 import org.cobalt.internal.ui.UIComponent

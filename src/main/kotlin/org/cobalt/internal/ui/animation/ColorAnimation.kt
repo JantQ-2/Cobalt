@@ -6,11 +6,8 @@ internal class ColorAnimation(duration: Long) {
 
   private val anim = EaseOutAnimation(duration)
 
-  fun start() = anim.start()
-
-  fun isAnimating(): Boolean = anim.isAnimating()
-
-  fun percent(): Float = anim.getPercent()
+  fun start() =
+    anim.start()
 
   fun get(start: Color, end: Color, reverse: Boolean): Color =
     Color(
