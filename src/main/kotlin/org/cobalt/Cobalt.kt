@@ -8,6 +8,7 @@ import org.cobalt.api.event.annotation.SubscribeEvent
 import org.cobalt.api.event.impl.client.TickEvent
 import org.cobalt.api.event.impl.render.WorldRenderEvent
 import org.cobalt.api.module.ModuleManager
+import org.cobalt.api.notification.NotificationManager
 import org.cobalt.api.pathfinder.IPathExec
 import org.cobalt.api.util.TickScheduler
 import org.cobalt.api.util.rotation.IRotationExec
@@ -21,7 +22,9 @@ object Cobalt : ClientModInitializer {
 
   const val MOD_NAME = "Cobalt"
   const val VERSION = "1.0.0"
-  const val MC_VERSION = "1.21.10"
+
+  val MC_VERSION: String
+    get() = mc.gameVersion
 
   val mc: MinecraftClient
     get() = MinecraftClient.getInstance()
@@ -36,7 +39,7 @@ object Cobalt : ClientModInitializer {
     CommandManager.register(MainCommand)
     CommandManager.dispatchAll()
 
-    listOf(TickScheduler, DiscordPresence, MainCommand).forEach { EventBus.register(it) }
+    listOf(TickScheduler, DiscordPresence, MainCommand, NotificationManager).forEach { EventBus.register(it) }
 
     Config.loadModulesConfig()
     EventBus.register(this)

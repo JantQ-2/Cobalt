@@ -8,6 +8,10 @@ import java.util.zip.ZipFile
 import net.fabricmc.loader.api.FabricLoader
 import net.fabricmc.loader.impl.launch.FabricLauncherBase
 import org.cobalt.api.addon.Addon
+import org.cobalt.api.addon.AddonMetadata
+import org.cobalt.api.util.ui.NVGRenderer
+import org.cobalt.api.util.ui.helper.Image
+import org.cobalt.internal.test.TestAddon
 import org.spongepowered.asm.mixin.Mixins
 
 object AddonLoader {
@@ -16,13 +20,25 @@ object AddonLoader {
   private val addons = mutableListOf<Pair<AddonMetadata, Addon>>()
   private val gson = Gson()
 
+
   fun findAddons() {
+    //REMOVE TO REMOVE TEST ADDON!!!
+    val testAddon = TestAddon()
+    addons += AddonMetadata(
+      id = "test",
+      name = "Test",
+      version = "1.0.0",
+      entrypoints = listOf(),
+      mixins = listOf(),
+      icon = "https://i.imgur.com/UD3Lija.png"
+    ) to testAddon
+
     if (FabricLauncherBase.getLauncher().isDevelopment) {
       for (entry in FabricLoader.getInstance().getEntrypointContainers("cobalt", Addon::class.java)) {
         val modMeta = entry.provider.metadata
         val metadata = AddonMetadata(
           id = modMeta.id,
-          name = modMeta.name,
+          name   = modMeta.name,
           version = modMeta.version?.toString() ?: "unknown",
           entrypoints = listOf(entry.entrypoint.javaClass.name),
           mixins = listOf()
@@ -106,12 +122,11 @@ object AddonLoader {
     return addons.toList()
   }
 
-  data class AddonMetadata(
-    val id: String,
-    val name: String,
-    val version: String,
-    val entrypoints: List<String>,
-    val mixins: List<String>,
-  )
+  fun getAddonIcon(addonId: String): Image? {
+    return NVGRenderer.createImage(
+      addons.find { it.first.id == addonId }?.first?.icon ?: return null
+    )
+  }
 
 }
+

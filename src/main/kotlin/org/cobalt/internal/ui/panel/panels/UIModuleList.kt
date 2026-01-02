@@ -2,8 +2,10 @@ package org.cobalt.internal.ui.panel.panels
 
 import java.awt.Color
 import org.cobalt.api.addon.Addon
+import org.cobalt.api.addon.AddonMetadata
 import org.cobalt.api.module.setting.impl.CheckboxSetting
 import org.cobalt.api.module.setting.impl.ColorSetting
+import org.cobalt.api.module.setting.impl.InfoSetting
 import org.cobalt.api.module.setting.impl.KeyBindSetting
 import org.cobalt.api.module.setting.impl.ModeSetting
 import org.cobalt.api.module.setting.impl.RangeSetting
@@ -17,6 +19,7 @@ import org.cobalt.internal.ui.components.UIModule
 import org.cobalt.internal.ui.components.UITopbar
 import org.cobalt.internal.ui.components.settings.UICheckboxSetting
 import org.cobalt.internal.ui.components.settings.UIColorSetting
+import org.cobalt.internal.ui.components.settings.UIInfoSetting
 import org.cobalt.internal.ui.components.settings.UIKeyBindSetting
 import org.cobalt.internal.ui.components.settings.UIModeSetting
 import org.cobalt.internal.ui.components.settings.UIRangeSetting
@@ -28,7 +31,7 @@ import org.cobalt.internal.ui.util.ScrollHandler
 import org.cobalt.internal.ui.util.isHoveringOver
 
 internal class UIModuleList(
-  private val metadata: AddonLoader.AddonMetadata,
+  private val metadata: AddonMetadata,
   addon: Addon,
 ) : UIPanel(
   x = 0F,
@@ -68,6 +71,7 @@ internal class UIModuleList(
       when (it) {
         is CheckboxSetting -> UICheckboxSetting(it)
         is ColorSetting -> UIColorSetting(it)
+        is InfoSetting -> UIInfoSetting(it)
         is KeyBindSetting -> UIKeyBindSetting(it)
         is ModeSetting -> UIModeSetting(it)
         is RangeSetting -> UIRangeSetting(it)

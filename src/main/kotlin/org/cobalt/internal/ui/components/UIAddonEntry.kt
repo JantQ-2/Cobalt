@@ -2,6 +2,7 @@ package org.cobalt.internal.ui.components
 
 import java.awt.Color
 import org.cobalt.api.addon.Addon
+import org.cobalt.api.addon.AddonMetadata
 import org.cobalt.api.util.ui.NVGRenderer
 import org.cobalt.internal.loader.AddonLoader
 import org.cobalt.internal.ui.UIComponent
@@ -10,7 +11,7 @@ import org.cobalt.internal.ui.screen.UIConfig
 import org.cobalt.internal.ui.util.isHoveringOver
 
 internal class UIAddonEntry(
-  private val metadata: AddonLoader.AddonMetadata,
+  private val metadata: AddonMetadata,
   private val addon: Addon,
 ) : UIComponent(
   x = 0F,
@@ -18,6 +19,7 @@ internal class UIAddonEntry(
   width = 270F,
   height = 70F,
 ) {
+  val addonIcon = AddonLoader.getAddonIcon(metadata.id) ?: boxIcon
 
   override fun render() {
     NVGRenderer.rect(
@@ -31,9 +33,10 @@ internal class UIAddonEntry(
     )
 
     NVGRenderer.rect(x + 10F, y + height / 2F - 25F, 50F, 50F, Color(30, 30, 30).rgb, 5F)
+
     NVGRenderer.image(
-      boxIcon, x + 20F, y + height / 2F - 15F, 30F, 30F,
-      colorMask = Color(42, 42, 42).rgb
+      addonIcon, x + 20F, y + height / 2F - 15F, 30F, 30F,
+      colorMask = Color(200, 200, 200).rgb
     )
 
     NVGRenderer.text(
@@ -63,6 +66,7 @@ internal class UIAddonEntry(
   }
 
   companion object {
+
     private val boxIcon = NVGRenderer.createImage("/assets/cobalt/icons/box.svg")
   }
 
