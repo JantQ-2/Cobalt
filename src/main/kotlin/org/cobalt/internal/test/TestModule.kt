@@ -56,8 +56,8 @@ class TestModule : Module(
 
     addSetting(
       ColorSetting(
-        name = "Rohan Likes Children",
-        description = "Rohan is a serial child molester and this is his favorite color",
+        name = "Primary Color",
+        description = "Primary accent color",
         defaultValue = Color(61, 94, 149, 255).rgb
       )
     )
