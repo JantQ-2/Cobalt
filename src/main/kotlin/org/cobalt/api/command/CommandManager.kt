@@ -23,16 +23,39 @@ import org.cobalt.api.command.annotation.SubCommand
 object CommandManager {
 
   private val commands = mutableListOf<Command>()
+  private var dispatcher: CommandDispatcher<FabricClientCommandSource>? = null
+  private var registryAccess: CommandRegistryAccess? = null
 
   fun register(command: Command) {
     commands.add(command)
   }
 
   fun dispatchAll() {
-    ClientCommandRegistrationCallback.EVENT.register(CommandManager::dispatchAll)
+    ClientCommandRegistrationCallback.EVENT.register(CommandManager::onRegisterCommands)
   }
 
-  private fun dispatchAll(dispatcher: CommandDispatcher<FabricClientCommandSource>, access: CommandRegistryAccess) {
+  private fun onRegisterCommands(dispatcher: CommandDispatcher<FabricClientCommandSource>, access: CommandRegistryAccess) {
+    this.dispatcher = dispatcher
+    this.registryAccess = access
+    registerAllCommands(dispatcher, access)
+  }
+
+  /**
+   * Re-registers all commands with the stored dispatcher.
+   * Used when new addons are loaded at runtime.
+   */
+  fun reregisterCommands() {
+    val disp = dispatcher
+    val access = registryAccess
+    if (disp != null && access != null) {
+      // Clear existing commands from dispatcher
+      disp.root.children.clear()
+      registerAllCommands(disp, access)
+      println("Re-registered ${commands.size} commands")
+    }
+  }
+
+  private fun registerAllCommands(dispatcher: CommandDispatcher<FabricClientCommandSource>, access: CommandRegistryAccess) {
     commands.forEach { command ->
       val rootNames = listOf(command.name) + command.aliases
 

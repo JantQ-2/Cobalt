@@ -189,11 +189,10 @@ object AddonLoader {
       }
     }
     
-    // Re-dispatch commands to include new addon commands
+    // Re-register all commands to include new addon commands
     if (newAddons.isNotEmpty()) {
-      CommandManager.dispatchAll()
+      CommandManager.reregisterCommands()
     }
   }
 
 }
-
