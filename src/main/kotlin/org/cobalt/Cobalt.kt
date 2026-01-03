@@ -15,6 +15,7 @@ import org.cobalt.api.util.rotation.IRotationExec
 import org.cobalt.internal.command.MainCommand
 import org.cobalt.internal.helper.Config
 import org.cobalt.internal.loader.AddonLoader
+import org.cobalt.internal.loader.AddonScanner
 import org.cobalt.internal.modules.DiscordPresence
 import org.cobalt.internal.rotation.RotationExec
 
@@ -39,7 +40,7 @@ object Cobalt : ClientModInitializer {
     CommandManager.register(MainCommand)
     CommandManager.dispatchAll()
 
-    listOf(TickScheduler, DiscordPresence, MainCommand, NotificationManager).forEach { EventBus.register(it) }
+    listOf(TickScheduler, DiscordPresence, MainCommand, NotificationManager, AddonScanner).forEach { EventBus.register(it) }
 
     Config.loadModulesConfig()
     EventBus.register(this)

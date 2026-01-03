@@ -4,11 +4,14 @@ import com.google.gson.Gson
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
+import java.nio.file.attribute.FileTime
 import java.util.zip.ZipFile
 import net.fabricmc.loader.api.FabricLoader
 import net.fabricmc.loader.impl.launch.FabricLauncherBase
 import org.cobalt.api.addon.Addon
 import org.cobalt.api.addon.AddonMetadata
+import org.cobalt.api.command.CommandManager
+import org.cobalt.api.module.ModuleManager
 import org.cobalt.api.util.ui.NVGRenderer
 import org.cobalt.api.util.ui.helper.Image
 import org.spongepowered.asm.mixin.Mixins
@@ -17,6 +20,7 @@ object AddonLoader {
 
   private val addonsDir: Path = Paths.get("config/cobalt/addons/")
   private val addons = mutableListOf<Pair<AddonMetadata, Addon>>()
+  private val loadedJars = mutableMapOf<Path, FileTime>()
   private val gson = Gson()
 
   fun findAddons() {
@@ -51,6 +55,7 @@ object AddonLoader {
         for (jarPath in stream) {
           FabricLauncherBase.getLauncher().addToClassPath(jarPath)
           loadAddon(jarPath)
+          loadedJars[jarPath] = Files.getLastModifiedTime(jarPath)
         }
       }
     } catch (e: Exception) {
@@ -113,6 +118,81 @@ object AddonLoader {
     return NVGRenderer.createImage(
       addons.find { it.first.id == addonId }?.first?.icon ?: return null
     )
+  }
+
+  /**
+   * Scans the addons directory for new or updated addon JARs and loads them.
+   * Returns a list of newly loaded addons.
+   */
+  fun scanForNewAddons(): List<Pair<AddonMetadata, Addon>> {
+    if (!Files.isDirectory(addonsDir)) {
+      Files.createDirectories(addonsDir)
+      return emptyList()
+    }
+
+    val newAddons = mutableListOf<Pair<AddonMetadata, Addon>>()
+
+    try {
+      Files.newDirectoryStream(addonsDir, "*.jar").use { stream ->
+        for (jarPath in stream) {
+          val lastModified = Files.getLastModifiedTime(jarPath)
+          val previousModified = loadedJars[jarPath]
+
+          // Check if this is a new file or if it has been modified
+          if (previousModified == null || lastModified > previousModified) {
+            try {
+              // Add to classpath if not already added
+              if (previousModified == null) {
+                FabricLauncherBase.getLauncher().addToClassPath(jarPath)
+              }
+
+              // If modified, we can't truly reload due to classloader limitations
+              // but we can at least load new addons
+              if (previousModified == null) {
+                loadAddon(jarPath)
+                loadedJars[jarPath] = lastModified
+                
+                // Get the most recently added addon (the one we just loaded)
+                val newAddon = addons.last()
+                newAddons.add(newAddon)
+                
+                println("Hot-loaded new addon: ${newAddon.first.name}")
+              } else {
+                println("Addon ${jarPath.fileName} was modified, but hot-reload of modified addons requires a restart")
+              }
+            } catch (e: Exception) {
+              println("Failed to load addon ${jarPath.fileName}: ${e.message}")
+              e.printStackTrace()
+            }
+          }
+        }
+      }
+    } catch (e: Exception) {
+      e.printStackTrace()
+    }
+
+    return newAddons
+  }
+
+  /**
+   * Initializes newly loaded addons by calling their onLoad() and registering modules
+   */
+  fun initializeAddons(newAddons: List<Pair<AddonMetadata, Addon>>) {
+    newAddons.forEach { (metadata, addon) ->
+      try {
+        addon.onLoad()
+        ModuleManager.addModules(addon.getModules())
+        println("Initialized addon: ${metadata.name}")
+      } catch (e: Exception) {
+        println("Failed to initialize addon ${metadata.name}: ${e.message}")
+        e.printStackTrace()
+      }
+    }
+    
+    // Re-dispatch commands to include new addon commands
+    if (newAddons.isNotEmpty()) {
+      CommandManager.dispatchAll()
+    }
   }
 
 }
